@@ -95,6 +95,25 @@
       "githubPath": "protocols/דגשים-TPA.jpg",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "סוגי-אינסולין",
+      "title": "סוגי אינסולין",
+      "category": "medications",
+      "tags": [
+        "אינסולין",
+        "insulin",
+        "סוכר",
+        "סוכרת",
+        "גלוקוז",
+        "היפרגליקמיה",
+        "דצ\"ל"
+      ],
+      "fileName": "סוגי-אינסולין.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/סוגי-אינסולין.jpg",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
