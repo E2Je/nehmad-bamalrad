@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { X, Upload, CheckCircle, AlertCircle, Loader, Edit2, Trash2, ChevronRight } from 'lucide-react'
+import { X, Upload, CheckCircle, AlertCircle, Loader, Edit2, Trash2, ChevronRight, Plus, Sparkles } from 'lucide-react'
 import { Protocol, Category, FileType } from '../types'
 
 const ADMIN_CODES = ['06918', '35321']
@@ -15,7 +15,7 @@ interface AdminPanelProps {
 type Tab = 'upload' | 'categories'
 type UploadStatus = 'idle' | 'uploading' | 'done' | 'error'
 
-const EMOJI_OPTIONS = ['💉','💊','🧪','📋','🩺','❤️','🏥','📁','🔬','🩹','💊','⚕️','🩻','📝','🫀','🫁','🧠','🦷','👁️','💆']
+const EMOJI_OPTIONS = ['💉','💊','🧪','📋','🩺','❤️','🏥','📁','🔬','🩹','⚕️','🩻','📝','🫀','🫁','🧠','🦷','👁️','🧬','💆']
 
 function detectFileType(file: File): FileType {
   const ext = file.name.split('.').pop()?.toLowerCase() ?? ''
@@ -29,18 +29,30 @@ function detectFileType(file: File): FileType {
 function suggestTags(filename: string, title: string): string[] {
   const combined = (filename + ' ' + title).toLowerCase()
   const map: Record<string, string[]> = {
-    'קטמין': ['קטמין','ketamine','הרדמה'],
-    'ketamine': ['קטמין','ketamine'],
-    'פנטניל': ['פנטניל','fentanyl','כאב'],
-    'fentanyl': ['פנטניל','fentanyl'],
-    'אינסולין': ['אינסולין','insulin','סוכר','סוכרת'],
-    'insulin': ['אינסולין','insulin'],
-    'נתרן': ['נתרן','sodium','היפונתרמיה'],
-    'hypo': ['היפו'],
-    'אנטיביוטיקה': ['אנטיביוטיקה','antibiotics','IV'],
-    'antibiotic': ['אנטיביוטיקה','antibiotics'],
-    'דריף': ['דריף','drip','עירוי'],
-    'drip': ['דריף','drip'],
+    'קטמין':       ['קטמין','ketamine','הרדמה','sedation'],
+    'ketamine':    ['קטמין','ketamine','הרדמה'],
+    'פנטניל':      ['פנטניל','fentanyl','כאב','אנלגזיה'],
+    'fentanyl':    ['פנטניל','fentanyl','כאב'],
+    'מורפין':      ['מורפין','morphine','כאב','אופיואיד'],
+    'morphine':    ['מורפין','morphine','אופיואיד'],
+    'אינסולין':    ['אינסולין','insulin','סוכר','סוכרת','גלוקוז'],
+    'insulin':     ['אינסולין','insulin','סוכר'],
+    'נתרן':        ['נתרן','sodium','היפונתרמיה','NaCl'],
+    'hyponatr':    ['היפונתרמיה','נתרן נמוך','sodium'],
+    'אנטיביוטיקה': ['אנטיביוטיקה','antibiotics','IV','הזרקה'],
+    'antibiotic':  ['אנטיביוטיקה','antibiotics'],
+    'דריף':        ['דריף','drip','עירוי','infusion'],
+    'drip':        ['דריף','drip','עירוי'],
+    'היפו':        ['היפו','hypoglycemia','סוכר נמוך'],
+    'dka':         ['DKA','קטואצידוזיס','סוכרת','סוכר גבוה'],
+    'פרוטוקול':   ['פרוטוקול','protocol'],
+    'טבלה':        ['טבלה','table'],
+    'חירום':       ['חירום','emergency'],
+    'לחץ דם':     ['לחץ דם','BP','היפוטנסיה'],
+    'קרישה':      ['קרישה','coagulation','anticoagulant'],
+    'הרדמה':      ['הרדמה','sedation','anesthesia'],
+    'כאב':        ['כאב','pain','אנלגזיה'],
+    'חמצן':       ['חמצן','oxygen','O2','סטורציה'],
   }
   const suggestions: string[] = []
   for (const [key, tags] of Object.entries(map)) {
@@ -49,7 +61,107 @@ function suggestTags(filename: string, title: string): string[] {
   return [...new Set(suggestions)]
 }
 
-// ── Login screen ──────────────────────────────────────────────────────────────
+// ── Tags component ────────────────────────────────────────────────────────────
+interface TagsSectionProps {
+  suggested: string[]
+  confirmed: string[]
+  onAccept: (tag: string) => void
+  onAcceptAll: () => void
+  onRemove: (tag: string) => void
+  onAddManual: (tag: string) => void
+}
+
+function TagsSection({ suggested, confirmed, onAccept, onAcceptAll, onRemove, onAddManual }: TagsSectionProps) {
+  const [input, setInput] = useState('')
+  const pendingSuggestions = suggested.filter((t) => !confirmed.includes(t))
+
+  function submit() {
+    const v = input.trim()
+    if (v && !confirmed.includes(v)) { onAddManual(v) }
+    setInput('')
+  }
+
+  return (
+    <div className="space-y-3">
+      <label className="block text-sm font-medium text-gray-700">מילות חיפוש</label>
+
+      {/* AI suggestions */}
+      {pendingSuggestions.length > 0 && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-3 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-amber-700">
+              <Sparkles size={13} />
+              הצעות אוטומטיות
+            </span>
+            <button
+              onClick={onAcceptAll}
+              className="text-xs font-semibold text-amber-700 bg-amber-100 hover:bg-amber-200 px-2.5 py-1 rounded-full transition-colors"
+            >
+              קבל הכל
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {pendingSuggestions.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => onAccept(tag)}
+                className="flex items-center gap-1 bg-white border border-amber-300 text-amber-800 text-xs px-2.5 py-1.5 rounded-full hover:bg-amber-100 active:scale-95 transition-all font-medium"
+              >
+                <Plus size={11} />
+                {tag}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Confirmed tags */}
+      {confirmed.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {confirmed.map((tag) => (
+            <span
+              key={tag}
+              className="flex items-center gap-1 bg-primary/10 text-primary text-xs px-2.5 py-1.5 rounded-full font-medium"
+            >
+              {tag}
+              <button
+                onClick={() => onRemove(tag)}
+                className="text-primary/60 hover:text-primary ml-0.5"
+              >
+                <X size={11} />
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Manual input */}
+      <div className="flex gap-2">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); submit() } }}
+          placeholder="הוסף מילת חיפוש ידנית..."
+          className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-primary"
+        />
+        <button
+          onClick={submit}
+          disabled={!input.trim()}
+          className="bg-primary text-white px-4 rounded-xl text-sm font-semibold disabled:opacity-40 flex items-center gap-1"
+        >
+          <Plus size={15} />
+          הוסף
+        </button>
+      </div>
+
+      {confirmed.length === 0 && pendingSuggestions.length === 0 && (
+        <p className="text-xs text-gray-400 text-center">הכנס כותרת או בחר קובץ לקבלת הצעות אוטומטיות</p>
+      )}
+    </div>
+  )
+}
+
+// ── Login screen ───────────────────────────────────────────────────────────────
 function LoginSheet({ onSuccess, onClose }: { onSuccess: () => void; onClose: () => void }) {
   const [code, setCode] = useState('')
   const [error, setError] = useState(false)
@@ -77,10 +189,7 @@ function LoginSheet({ onSuccess, onClose }: { onSuccess: () => void; onClose: ()
           className={`w-full border-2 rounded-2xl px-4 py-3.5 text-center text-2xl tracking-widest font-mono outline-none transition-colors ${error ? 'border-red-400 bg-red-50' : 'border-gray-200 focus:border-primary'}`}
         />
         {error && <p className="text-red-500 text-sm text-center mt-2">קוד שגוי, נסה שוב</p>}
-        <button
-          onClick={attempt}
-          className="w-full mt-4 bg-primary text-white py-3.5 rounded-2xl font-bold text-lg"
-        >
+        <button onClick={attempt} className="w-full mt-4 bg-primary text-white py-3.5 rounded-2xl font-bold text-lg">
           כניסה
         </button>
       </div>
@@ -98,7 +207,8 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
   const [title, setTitle] = useState('')
   const [selCategory, setSelCategory] = useState(categories[0]?.id ?? '')
   const [description, setDescription] = useState('')
-  const [tagsRaw, setTagsRaw] = useState('')
+  const [suggestedTags, setSuggestedTags] = useState<string[]>([])
+  const [confirmedTags, setConfirmedTags] = useState<string[]>([])
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>('idle')
   const [uploadMsg, setUploadMsg] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
@@ -125,19 +235,51 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
     setFile(f)
     const auto = f.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ')
     setTitle(auto)
-    setTagsRaw(suggestTags(f.name, auto).join(', '))
+    const suggestions = suggestTags(f.name, auto)
+    setSuggestedTags(suggestions)
+    setConfirmedTags([])
+  }
+
+  function handleTitleChange(val: string) {
+    setTitle(val)
+    if (!file) {
+      const suggestions = suggestTags('', val)
+      setSuggestedTags(suggestions)
+    }
+  }
+
+  function acceptTag(tag: string) {
+    if (!confirmedTags.includes(tag)) setConfirmedTags((prev) => [...prev, tag])
+  }
+
+  function acceptAllTags() {
+    const pending = suggestedTags.filter((t) => !confirmedTags.includes(t))
+    setConfirmedTags((prev) => [...new Set([...prev, ...pending])])
+  }
+
+  function removeTag(tag: string) {
+    setConfirmedTags((prev) => prev.filter((t) => t !== tag))
+  }
+
+  function addManualTag(tag: string) {
+    setConfirmedTags((prev) => [...new Set([...prev, tag])])
+  }
+
+  function resetForm() {
+    setFile(null); setTitle(''); setDescription('')
+    setSuggestedTags([]); setConfirmedTags([])
+    setUploadStatus('idle'); setUploadMsg('')
   }
 
   async function handleUpload() {
     if (!file || !title || !selCategory) return
     setUploadStatus('uploading')
-    setUploadMsg('מעלה קובץ...')
+    setUploadMsg('מעלה קובץ לגיטהאב...')
 
     const reader = new FileReader()
     reader.onload = async () => {
       try {
         const base64 = (reader.result as string).split(',')[1]
-        const tags = tagsRaw.split(',').map((t) => t.trim()).filter(Boolean)
         const safeName = file.name.replace(/\s+/g, '-')
 
         const res = await fetch('/api/upload', {
@@ -148,28 +290,23 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
             content: base64,
             title,
             category: selCategory,
-            tags,
+            tags: confirmedTags,
             fileType: detectFileType(file),
             description,
           }),
         })
 
-        if (!res.ok) {
-          const txt = await res.text()
-          throw new Error(txt)
-        }
+        if (!res.ok) throw new Error(await res.text())
 
         const { protocol: newP } = await res.json()
         onProtocolsChange([...protocols, newP])
         setUploadStatus('done')
         setUploadMsg('הקובץ הועלה בהצלחה!')
-        setTimeout(() => {
-          setFile(null); setTitle(''); setTagsRaw(''); setDescription(''); setUploadStatus('idle'); setUploadMsg('')
-        }, 2500)
+        setTimeout(resetForm, 2500)
       } catch (err: unknown) {
         setUploadStatus('error')
         setUploadMsg(err instanceof Error && err.message.includes('token')
-          ? 'חסר GITHUB_TOKEN ב-Netlify. ראה DEPLOY.md'
+          ? 'חסר GITHUB_TOKEN ב-Netlify'
           : 'שגיאה בהעלאה - בדוק שה-Token הוגדר ב-Netlify')
       }
     }
@@ -190,8 +327,8 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
     } catch { alert('שגיאה בשמירה') }
   }
 
-  async function handleDelete(id: string, title: string) {
-    if (!window.confirm(`למחוק את "${title}"?\nהפרוטוקול יוסר מהמאגר.`)) return
+  async function handleDelete(id: string, name: string) {
+    if (!window.confirm(`למחוק את "${name}"?\nהפרוטוקול יוסר מהמאגר.`)) return
     try {
       const res = await fetch('/api/delete-protocol', {
         method: 'POST',
@@ -207,8 +344,7 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
     if (!newCatLabel.trim()) return
     const id = newCatLabel.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')
     if (categories.find((c) => c.id === id)) { setCatMsg('קטגוריה עם שם זה כבר קיימת'); return }
-    const newCat: Category = { id, label: newCatLabel.trim(), emoji: newCatEmoji }
-    const updated = [...categories, newCat]
+    const updated = [...categories, { id, label: newCatLabel.trim(), emoji: newCatEmoji }]
     try {
       const res = await fetch('/api/update-categories', {
         method: 'POST',
@@ -217,8 +353,8 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
       })
       if (!res.ok) throw new Error(await res.text())
       onCategoriesChange(updated)
-      setNewCatLabel(''); setNewCatEmoji('📁'); setCatMsg('הקטגוריה נוספה!')
-      setTimeout(() => setCatMsg(''), 2000)
+      setNewCatLabel(''); setNewCatEmoji('📁')
+      setCatMsg('הקטגוריה נוספה!'); setTimeout(() => setCatMsg(''), 2000)
     } catch (err: unknown) {
       setCatMsg(err instanceof Error ? err.message : 'שגיאה - בדוק שה-Token הוגדר ב-Netlify')
     }
@@ -259,11 +395,11 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
         {tab === 'upload' && (
           <div className="p-4 space-y-4">
 
-            {/* Protocol list for editing */}
+            {/* Existing protocols */}
             {protocols.length > 0 && (
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="px-4 py-3 border-b border-gray-50">
-                  <p className="font-semibold text-gray-700 text-sm">פרוטוקולים קיימים</p>
+                  <p className="font-semibold text-gray-700 text-sm">פרוטוקולים קיימים ({protocols.length})</p>
                 </div>
                 {protocols.map((p) => (
                   <div key={p.id} className="border-b border-gray-50 last:border-0">
@@ -273,12 +409,11 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
                           value={editTitle}
                           onChange={(e) => setEditTitle(e.target.value)}
                           className="w-full border border-gray-200 rounded-xl px-3 py-2.5 font-medium outline-none focus:border-primary bg-white"
-                          placeholder="שם הפרוטוקול"
                         />
                         <select
                           value={editCategory}
                           onChange={(e) => setEditCategory(e.target.value)}
-                          className="w-full border border-gray-200 rounded-xl px-3 py-2.5 outline-none focus:border-primary bg-white text-gray-700"
+                          className="w-full border border-gray-200 rounded-xl px-3 py-2.5 outline-none focus:border-primary bg-white"
                         >
                           {categories.map((c) => (
                             <option key={c.id} value={c.id}>{c.emoji} {c.label}</option>
@@ -322,6 +457,36 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-4">
               <p className="font-bold text-gray-800">פרוטוקול חדש</p>
 
+              {/* File upload - first */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  קובץ <span className="text-red-400">*</span>
+                </label>
+                <div
+                  onClick={() => fileRef.current?.click()}
+                  className={`border-2 border-dashed rounded-2xl p-5 text-center cursor-pointer transition-colors ${
+                    file ? 'border-primary bg-blue-50' : 'border-gray-200 bg-gray-50 hover:border-primary/50'
+                  }`}
+                >
+                  <Upload size={26} className={`mx-auto mb-2 ${file ? 'text-primary' : 'text-gray-300'}`} />
+                  {file ? (
+                    <p className="font-semibold text-primary text-sm">{file.name}</p>
+                  ) : (
+                    <>
+                      <p className="font-medium text-gray-500 text-sm">לחץ להעלאת קובץ</p>
+                      <p className="text-xs text-gray-400 mt-0.5">תמונה, PDF, Word, PPT</p>
+                    </>
+                  )}
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept="image/*,.pdf,.doc,.docx,.ppt,.pptx"
+                    className="hidden"
+                    onChange={(e) => e.target.files?.[0] && handleFileChange(e.target.files[0])}
+                  />
+                </div>
+              </div>
+
               {/* Title */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -329,7 +494,7 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
                 </label>
                 <input
                   value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => handleTitleChange(e.target.value)}
                   placeholder="לדוגמה: דריף קטמין-פנטניל"
                   className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary text-gray-800 placeholder:text-gray-300"
                 />
@@ -358,53 +523,20 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
                 <input
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="תיאור קצר של הפרוטוקול"
+                  placeholder="תיאור קצר של הפרוטוקול (לא חובה)"
                   className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary text-gray-800 placeholder:text-gray-300"
                 />
               </div>
 
-              {/* Tags */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                  מילות מפתח <span className="text-gray-400 font-normal">(מופרדות בפסיק)</span>
-                </label>
-                <input
-                  value={tagsRaw}
-                  onChange={(e) => setTagsRaw(e.target.value)}
-                  placeholder="לדוגמה: ketamine, fentanyl, הרדמה, כאב"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary text-gray-800 placeholder:text-gray-300 text-sm"
-                />
-              </div>
-
-              {/* File upload */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                  קובץ <span className="text-red-400">*</span>
-                </label>
-                <div
-                  onClick={() => fileRef.current?.click()}
-                  className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-colors ${
-                    file ? 'border-primary bg-blue-50' : 'border-gray-200 bg-gray-50 hover:border-primary/50'
-                  }`}
-                >
-                  <Upload size={28} className={`mx-auto mb-2 ${file ? 'text-primary' : 'text-gray-300'}`} />
-                  {file ? (
-                    <p className="font-semibold text-primary text-sm">{file.name}</p>
-                  ) : (
-                    <>
-                      <p className="font-medium text-gray-500 text-sm">לחץ להעלאת קובץ (תמונה, PDF, Word, PPT)</p>
-                      <p className="text-xs text-gray-400 mt-1">JPG, PNG, PDF, DOC, DOCX, PPT, PPTX</p>
-                    </>
-                  )}
-                  <input
-                    ref={fileRef}
-                    type="file"
-                    accept="image/*,.pdf,.doc,.docx,.ppt,.pptx"
-                    className="hidden"
-                    onChange={(e) => e.target.files?.[0] && handleFileChange(e.target.files[0])}
-                  />
-                </div>
-              </div>
+              {/* Tags - the new interactive section */}
+              <TagsSection
+                suggested={suggestedTags}
+                confirmed={confirmedTags}
+                onAccept={acceptTag}
+                onAcceptAll={acceptAllTags}
+                onRemove={removeTag}
+                onAddManual={addManualTag}
+              />
 
               {/* Submit */}
               <button
@@ -416,7 +548,10 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
                 {uploadStatus === 'done' && <CheckCircle size={18} />}
                 {uploadStatus === 'error' && <AlertCircle size={18} />}
                 {uploadStatus === 'idle' && <Upload size={18} />}
-                {uploadStatus === 'uploading' ? 'מעלה...' : uploadStatus === 'done' ? 'הועלה!' : uploadStatus === 'error' ? 'שגיאה' : 'הוסף פרוטוקול'}
+                {uploadStatus === 'uploading' ? 'מעלה...'
+                  : uploadStatus === 'done' ? 'הועלה!'
+                  : uploadStatus === 'error' ? 'שגיאה'
+                  : `הוסף פרוטוקול${confirmedTags.length > 0 ? ` (${confirmedTags.length} תגיות)` : ''}`}
               </button>
 
               {uploadMsg && (
@@ -433,8 +568,6 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
         {/* ── CATEGORIES TAB ── */}
         {tab === 'categories' && (
           <div className="p-4 space-y-3">
-
-            {/* Existing categories */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               {categories.map((cat, i) => (
                 <div key={cat.id} className={`flex items-center gap-3 px-4 py-3.5 ${i < categories.length - 1 ? 'border-b border-gray-50' : ''}`}>
@@ -444,16 +577,14 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
               ))}
             </div>
 
-            {/* Add new category */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-3">
               <p className="font-bold text-gray-800">הוסף קטגוריה חדשה</p>
 
-              {/* Emoji picker */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">אייקון</label>
                 <button
                   onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                  className="w-16 h-12 border-2 border-gray-200 rounded-xl text-2xl flex items-center justify-center hover:border-primary transition-colors"
+                  className="w-14 h-12 border-2 border-gray-200 rounded-xl text-2xl flex items-center justify-center hover:border-primary transition-colors"
                 >
                   {newCatEmoji}
                 </button>
@@ -474,7 +605,6 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
                 )}
               </div>
 
-              {/* Category name */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">שם קטגוריה</label>
                 <input
@@ -504,7 +634,6 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
             </div>
           </div>
         )}
-
       </div>
     </div>
   )
