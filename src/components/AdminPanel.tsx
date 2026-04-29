@@ -253,10 +253,8 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
 
   function handleTitleChange(val: string) {
     setTitle(val)
-    if (!file) {
-      const suggestions = suggestTags('', val)
-      setSuggestedTags(suggestions)
-    }
+    const suggestions = suggestTags(file?.name ?? '', val)
+    setSuggestedTags(suggestions)
   }
 
   function acceptTag(tag: string) {
