@@ -300,6 +300,25 @@
       "githubPath": "protocols/קטמין-פנטניל.pdf",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "__פגיעות-בעלי-חיים_",
+      "title": "  פגיעות בעלי חיים ",
+      "category": "---",
+      "tags": [
+        "הכשת נחש",
+        "עקרב",
+        "כלבת",
+        "בעלי חיים",
+        "חיסון",
+        "אנטידוט",
+        "אנטיסרום"
+      ],
+      "fileName": "__פגיעות-בעלי-חיים_.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/__פגיעות-בעלי-חיים_.pdf",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
