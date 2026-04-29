@@ -246,10 +246,9 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
   function handleFileChange(f: File) {
     setFile(f)
     const auto = f.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ')
-    setTitle(auto)
-    const suggestions = suggestTags(f.name, auto)
+    if (!title) setTitle(auto)
+    const suggestions = suggestTags(f.name, title || auto)
     setSuggestedTags(suggestions)
-    setConfirmedTags([])
   }
 
   function handleTitleChange(val: string) {
