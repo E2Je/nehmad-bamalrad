@@ -180,6 +180,17 @@
       "githubPath": "protocols/גזים-בדם.pdf.pdf",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "__טרופונין-וck_",
+      "title": "טרופונין וCPK",
+      "category": "-",
+      "tags": [],
+      "fileName": "__טרופונין-וCK_.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/__טרופונין-וCK_.pdf",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
