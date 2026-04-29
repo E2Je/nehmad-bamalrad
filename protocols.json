@@ -218,6 +218,17 @@
       "githubPath": "protocols/כלבת.pdf",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "img-20260423-wa0014",
+      "title": "אופן הכנת וחיבור TPA",
+      "category": "medications",
+      "tags": [],
+      "fileName": "IMG-20260423-WA0014.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/IMG-20260423-WA0014.jpg",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
