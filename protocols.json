@@ -36,5 +36,17 @@
       "emoji": "📁"
     }
   ],
-  "protocols": []
+  "protocols": [
+    {
+      "id": "דריפים-נפוצים",
+      "title": "דריפים נפוצים",
+      "category": "drips",
+      "tags": [],
+      "fileName": "דריפים-נפוצים.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/דריפים-נפוצים.jpg",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
+    }
+  ]
 }
