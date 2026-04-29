@@ -65,19 +65,22 @@ export default function App() {
 
   return (
     <div className={`${dark ? 'dark' : ''} min-h-dvh flex flex-col bg-surface font-heb`}>
-      <Header
-        onAdminClick={() => setShowAdmin(true)}
-        dark={dark}
-        onDarkToggle={() => setDark((d) => !d)}
-      />
-      <SearchBar value={query} onChange={setQuery} resultCount={filtered.length} />
-      <CategoryFilter
-        categories={categories}
-        active={activeCategory}
-        onChange={setActiveCategory}
-        counts={counts}
-        searchMode={!!query}
-      />
+      {/* Sticky top bar: header + search + categories */}
+      <div className="sticky top-0 z-10 flex flex-col">
+        <Header
+          onAdminClick={() => setShowAdmin(true)}
+          dark={dark}
+          onDarkToggle={() => setDark((d) => !d)}
+        />
+        <SearchBar value={query} onChange={setQuery} resultCount={filtered.length} />
+        <CategoryFilter
+          categories={categories}
+          active={activeCategory}
+          onChange={setActiveCategory}
+          counts={counts}
+          searchMode={!!query}
+        />
+      </div>
 
       {/* Ambiguous query hint */}
       {ambiguous && (
@@ -126,6 +129,11 @@ export default function App() {
           ))
         )}
       </main>
+
+      {/* Footer */}
+      <footer className="text-center py-4 px-4 safe-bottom">
+        <p className="text-gray-400 text-xs">© נוצר על ידי איתמר גרינברג יחד עם ליאורה לוי</p>
+      </footer>
 
       {selectedProtocol && (
         <FileViewer protocol={selectedProtocol} onClose={() => setSelectedProtocol(null)} />

@@ -17,7 +17,7 @@ export default function Header({ onAdminClick, dark, onDarkToggle }: HeaderProps
   }, [])
 
   return (
-    <header className="bg-primary text-white px-4 pt-4 pb-3 sticky top-0 z-10">
+    <header className="bg-primary text-white px-4 pt-4 pb-3">
       <div
         className="flex items-center justify-between header-inner"
         style={{
