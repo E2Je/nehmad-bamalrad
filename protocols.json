@@ -229,6 +229,24 @@
       "githubPath": "protocols/IMG-20260423-WA0014.jpg",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "img-20260313-wa0012",
+      "title": "דגשים חיסון כלבת",
+      "category": "medications",
+      "tags": [
+        "נשיכות בעלי חיים",
+        "כלבת",
+        "חיסון",
+        "Rig",
+        "Rabipur",
+        "הסננה"
+      ],
+      "fileName": "IMG-20260313-WA0012.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/IMG-20260313-WA0012.jpg",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
