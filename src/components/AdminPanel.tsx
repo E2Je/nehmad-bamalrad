@@ -315,8 +315,8 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
       } catch (err: unknown) {
         setUploadStatus('error')
         setUploadMsg(err instanceof Error && err.message.includes('token')
-          ? 'חסר GITHUB_TOKEN ב-Netlify'
-          : 'שגיאה בהעלאה - בדוק שה-Token הוגדר ב-Netlify')
+          ? 'חסר GITHUB_TOKEN ב-Vercel'
+          : 'שגיאה בהעלאה - בדוק שה-Token הוגדר ב-Vercel')
       }
     }
     reader.readAsDataURL(file)
@@ -365,7 +365,7 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
       setNewCatLabel(''); setNewCatEmoji('📁')
       setCatMsg('הקטגוריה נוספה!'); setTimeout(() => setCatMsg(''), 2000)
     } catch (err: unknown) {
-      setCatMsg(err instanceof Error ? err.message : 'שגיאה - בדוק שה-Token הוגדר ב-Netlify')
+      setCatMsg(err instanceof Error ? err.message : 'שגיאה - בדוק שה-Token הוגדר ב-Vercel')
     }
   }
 
