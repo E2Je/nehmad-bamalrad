@@ -1,0 +1,56 @@
+{
+  "categories": [
+    { "id": "drips", "label": "דריפים", "emoji": "💉" },
+    { "id": "medications", "label": "תרופות", "emoji": "💊" },
+    { "id": "antibiotics", "label": "אנטיביוטיקה", "emoji": "🧪" },
+    { "id": "protocols", "label": "פרוטוקולים", "emoji": "📋" },
+    { "id": "procedures", "label": "פרוצדורות", "emoji": "🩺" },
+    { "id": "other", "label": "אחר", "emoji": "📁" }
+  ],
+  "protocols": [
+    {
+      "id": "drip-ketamine-fentanyl",
+      "title": "דריף קטמין - פנטניל",
+      "category": "drips",
+      "tags": ["קטמין", "פנטניל", "הרדמה", "כאב", "sedation", "ketamine", "fentanyl", "דריף"],
+      "fileName": "drip-ketamine-fentanyl.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/drip-ketamine-fentanyl.jpg",
+      "updatedAt": "2024-01-01",
+      "isLatest": true
+    },
+    {
+      "id": "insulin-table",
+      "title": "טבלת אינסולין",
+      "category": "medications",
+      "tags": ["אינסולין", "סוכר", "סוכרת", "גלוקוז", "hyperglycemia", "insulin", "דצ\"ל"],
+      "fileName": "insulin-table.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/insulin-table.jpg",
+      "updatedAt": "2024-01-01",
+      "isLatest": true
+    },
+    {
+      "id": "hyponatremia",
+      "title": "היפונתרמיה",
+      "category": "protocols",
+      "tags": ["נתרן", "נתרן נמוך", "היפונתרמיה", "NaCl 3%", "hyponatremia", "sodium", "ODS"],
+      "fileName": "hyponatremia.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/hyponatremia.jpg",
+      "updatedAt": "2024-01-01",
+      "isLatest": true
+    },
+    {
+      "id": "antibiotics-table",
+      "title": "תכשירים אנטיביוטיים להזרקה",
+      "category": "antibiotics",
+      "tags": ["אנטיביוטיקה", "הזרקה", "פניצילין", "צפלוספורין", "ונקומיצין", "מרופנם", "antibiotics", "IV"],
+      "fileName": "antibiotics-table.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/antibiotics-table.jpg",
+      "updatedAt": "2024-01-01",
+      "isLatest": true
+    }
+  ]
+}

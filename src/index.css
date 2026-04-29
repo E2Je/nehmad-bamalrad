@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+html, body {
+  direction: rtl;
+  font-family: 'Heebo', Arial, sans-serif;
+  background: #f0f4f9;
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: none;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Smooth scrolling */
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Pinch zoom for viewer */
+.pinch-zoom-container {
+  touch-action: pan-x pan-y pinch-zoom;
+}
+
+/* Card hover */
+.protocol-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.protocol-card:active {
+  transform: scale(0.97);
+}
+
+/* Search pulse animation */
+@keyframes search-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(30, 95, 168, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(30, 95, 168, 0); }
+}
+.search-focused {
+  animation: search-pulse 1.5s ease-in-out 1;
+}
+
+/* Modal slide up */
+@keyframes slide-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.modal-slide-up {
+  animation: slide-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Fade in */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  animation: fade-in 0.25s ease forwards;
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* No scrollbar on tag row */
+.tags-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.tags-scroll::-webkit-scrollbar { display: none; }
+
+/* Safe area padding for notched phones */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
