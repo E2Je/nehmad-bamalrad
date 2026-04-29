@@ -29,6 +29,11 @@
       "id": "other",
       "label": "אחר",
       "emoji": "📁"
+    },
+    {
+      "id": "-",
+      "label": "בדיקות דם",
+      "emoji": "🔬"
     }
   ],
   "protocols": [
