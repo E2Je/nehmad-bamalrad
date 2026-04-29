@@ -262,6 +262,24 @@
       "githubPath": "protocols/IMG-20260423-WA0026.jpg",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "קרישת-דם",
+      "title": "קרישת דם",
+      "category": "-",
+      "tags": [
+        "תפקודי קרישה",
+        "דילול דם",
+        "INR",
+        "PT",
+        "PTT",
+        "Antixa"
+      ],
+      "fileName": "קרישת-דם.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/קרישת-דם.pdf",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
