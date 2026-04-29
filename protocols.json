@@ -31,17 +31,5 @@
       "emoji": "📁"
     }
   ],
-  "protocols": [
-    {
-      "id": "ab67616d0000b273b694e89ba937dd2631ff584c",
-      "title": "ab67616d0000b273b694e89ba937dd2631ff584c",
-      "category": "drips",
-      "tags": [],
-      "fileName": "ab67616d0000b273b694e89ba937dd2631ff584c.jpeg",
-      "fileType": "image",
-      "githubPath": "protocols/ab67616d0000b273b694e89ba937dd2631ff584c.jpeg",
-      "updatedAt": "2026-04-29",
-      "isLatest": true
-    }
-  ]
+  "protocols": []
 }
