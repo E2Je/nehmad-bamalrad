@@ -84,6 +84,17 @@
       "githubPath": "protocols/הנחיות-מיהול-ab-12.2023.pdf",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "דגשים-tpa",
+      "title": "דגשים TPA",
+      "category": "medications",
+      "tags": [],
+      "fileName": "דגשים-TPA.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/דגשים-TPA.jpg",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
