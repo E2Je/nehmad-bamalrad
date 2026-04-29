@@ -54,14 +54,20 @@ export default function App() {
       {/* Protocol list */}
       <main className="flex-1 px-4 py-3 space-y-3 pb-8 safe-bottom">
         {filtered.length === 0 && query ? (
-          <div className="text-center py-16 fade-in">
+          <div className="text-center py-16 fade-in px-4">
             <p className="text-4xl mb-3">🔍</p>
-            <p className="font-semibold text-gray-700">לא נמצאו תוצאות</p>
+            <p className="font-semibold text-gray-700">לא נמצאו תוצאות עבור &quot;{query}&quot;</p>
             <p className="text-sm text-gray-400 mt-1">בדוק את האיות או נסה מילה אחרת</p>
-            <p className="text-xs text-gray-300 mt-3 bg-gray-50 rounded-xl p-3 mx-4">
-              הפרוטוקול לא נמצא במאגר המאושר.<br />
-              יש לפנות לאחראית הדרכה לעדכון המערכת.
-            </p>
+            <div className="mt-4 bg-amber-50 border border-amber-200 rounded-2xl p-4 text-right">
+              <p className="text-sm text-amber-800 font-medium">הפרוטוקול לא נמצא במאגר המאושר</p>
+              <p className="text-xs text-amber-600 mt-1">יש לפעול לפי הנחיות המחלקה ולפנות לאחראית הדרכה לעדכון המערכת</p>
+            </div>
+          </div>
+        ) : filtered.length === 0 && protocols.length === 0 ? (
+          <div className="text-center py-16 fade-in px-4">
+            <p className="text-5xl mb-4">📋</p>
+            <p className="font-bold text-gray-700 text-lg">המאגר ריק</p>
+            <p className="text-sm text-gray-400 mt-2">לחץ על מגן הניהול למעלה והוסף פרוטוקולים</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-16 fade-in">

@@ -1,5 +1,5 @@
-import { X, ZoomIn, ZoomOut, RotateCcw, Download } from 'lucide-react'
-import { useState, useRef } from 'react'
+import { ArrowRight, ZoomIn, ZoomOut, Download } from 'lucide-react'
+import { useState } from 'react'
 import { Protocol } from '../types'
 
 const GITHUB_RAW = 'https://raw.githubusercontent.com/E2Je/nehmad-bamalrad/main'
@@ -13,7 +13,6 @@ interface FileViewerProps {
 export default function FileViewer({ protocol, onClose }: FileViewerProps) {
   const [zoom, setZoom] = useState(1)
   const [iframeLoaded, setIframeLoaded] = useState(false)
-  const imgRef = useRef<HTMLImageElement>(null)
 
   const rawUrl = `${GITHUB_RAW}/${protocol.githubPath}`
   const encodedUrl = encodeURIComponent(rawUrl)
@@ -21,82 +20,82 @@ export default function FileViewer({ protocol, onClose }: FileViewerProps) {
   const isImage = protocol.fileType === 'image'
   const isPdf = protocol.fileType === 'pdf'
   const isDoc = protocol.fileType === 'word' || protocol.fileType === 'ppt'
-
-  const viewerUrl = isPdf
-    ? `${GDOCS_VIEWER}${encodedUrl}`
-    : isDoc
-    ? `${GDOCS_VIEWER}${encodedUrl}`
-    : null
+  const viewerUrl = (isPdf || isDoc) ? `${GDOCS_VIEWER}${encodedUrl}` : null
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-gray-900">
+    <div className="fixed inset-0 z-50 flex flex-col bg-gray-900 modal-slide-up">
+
       {/* Top bar */}
-      <div className="flex items-center justify-between px-4 py-3 bg-gray-900 border-b border-gray-700 flex-shrink-0">
+      <div className="flex items-center gap-3 px-4 py-3 bg-gray-900 border-b border-gray-700/60 flex-shrink-0">
+        {/* Back button - prominent */}
         <button
           onClick={onClose}
-          className="flex items-center gap-2 text-white bg-white/10 hover:bg-white/20 px-3 py-2 rounded-xl text-sm font-medium transition-colors"
+          className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 active:bg-white/30 text-white rounded-xl px-3.5 py-2.5 text-sm font-semibold transition-colors flex-shrink-0"
         >
-          <X size={16} />
-          סגור
+          <ArrowRight size={16} />
+          חזרה
         </button>
 
-        <h2 className="text-white font-semibold text-sm truncate mx-3 flex-1 text-center">
+        {/* Title */}
+        <h2 className="flex-1 text-white font-semibold text-sm text-center truncate">
           {protocol.title}
         </h2>
 
-        {isImage && (
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setZoom((z) => Math.max(0.5, z - 0.25))}
-              className="p-2 text-white bg-white/10 rounded-lg"
-            >
-              <ZoomOut size={16} />
-            </button>
-            <button
-              onClick={() => setZoom(1)}
-              className="px-2 py-1.5 text-white bg-white/10 rounded-lg text-xs font-mono min-w-[44px] text-center"
-            >
-              {Math.round(zoom * 100)}%
-            </button>
-            <button
-              onClick={() => setZoom((z) => Math.min(4, z + 0.25))}
-              className="p-2 text-white bg-white/10 rounded-lg"
-            >
-              <ZoomIn size={16} />
-            </button>
-          </div>
-        )}
-
-        {!isImage && (
+        {/* Right side actions */}
+        <div className="flex items-center gap-1 flex-shrink-0">
+          {isImage && (
+            <>
+              <button
+                onClick={() => setZoom((z) => Math.max(0.5, +(z - 0.25).toFixed(2)))}
+                className="p-2.5 text-white bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                <ZoomOut size={16} />
+              </button>
+              <span className="text-white/60 text-xs font-mono w-10 text-center">
+                {Math.round(zoom * 100)}%
+              </span>
+              <button
+                onClick={() => setZoom((z) => Math.min(4, +(z + 0.25).toFixed(2)))}
+                className="p-2.5 text-white bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                <ZoomIn size={16} />
+              </button>
+            </>
+          )}
           <a
             href={rawUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 text-white bg-white/10 rounded-xl"
+            className="p-2.5 text-white bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+            title="פתח בחלון חדש"
           >
             <Download size={16} />
           </a>
-        )}
+        </div>
       </div>
 
       {/* Viewer area */}
-      <div className="flex-1 overflow-auto pinch-zoom-container relative">
+      <div className="flex-1 overflow-auto pinch-zoom-container bg-gray-900 relative">
         {isImage && (
           <div className="min-h-full flex items-start justify-center p-4">
             <img
-              ref={imgRef}
               src={rawUrl}
               alt={protocol.title}
-              className="rounded-lg shadow-2xl max-w-none"
-              style={{ transform: `scale(${zoom})`, transformOrigin: 'top center', transition: 'transform 0.2s ease' }}
+              className="rounded-xl shadow-2xl max-w-full transition-transform duration-200"
+              style={{
+                transform: `scale(${zoom})`,
+                transformOrigin: 'top center',
+              }}
               onError={(e) => {
                 const el = e.target as HTMLImageElement
                 el.style.display = 'none'
-                el.parentElement!.innerHTML = `
-                  <div class="text-center text-gray-400 py-16">
-                    <p class="text-lg font-medium">הקובץ לא נמצא</p>
-                    <p class="text-sm mt-2">יש לוודא שהקובץ הועלה לגיטהאב</p>
-                  </div>`
+                el.insertAdjacentHTML('afterend', `
+                  <div class="text-center text-gray-400 py-20 w-full">
+                    <p class="text-5xl mb-4">🖼️</p>
+                    <p class="text-lg font-semibold text-gray-300">הקובץ לא נמצא</p>
+                    <p class="text-sm text-gray-500 mt-2">ייתכן שהקובץ טרם הועלה לגיטהאב</p>
+                  </div>
+                `)
               }}
             />
           </div>
@@ -105,8 +104,8 @@ export default function FileViewer({ protocol, onClose }: FileViewerProps) {
         {(isPdf || isDoc) && viewerUrl && (
           <>
             {!iframeLoaded && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 gap-4">
-                <div className="w-10 h-10 border-3 border-white/20 border-t-white rounded-full animate-spin border-2" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-gray-400">
+                <div className="w-10 h-10 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                 <p className="text-sm">טוען מסמך...</p>
               </div>
             )}
@@ -115,16 +114,22 @@ export default function FileViewer({ protocol, onClose }: FileViewerProps) {
               className="w-full h-full border-0"
               onLoad={() => setIframeLoaded(true)}
               title={protocol.title}
-              allow="fullscreen"
             />
           </>
         )}
       </div>
 
-      {/* Source note */}
-      <div className="bg-gray-800 px-4 py-2 flex-shrink-0 safe-bottom">
-        <p className="text-center text-gray-400 text-xs">
-          מקור: פרוטוקול מחלקתי מאושר - באחריות אחראית הדרכה
+      {/* Source note + back button repeated at bottom */}
+      <div className="bg-gray-800 px-4 py-3 flex-shrink-0 safe-bottom flex items-center justify-between gap-4">
+        <button
+          onClick={onClose}
+          className="flex items-center gap-1.5 text-gray-400 hover:text-white text-sm transition-colors"
+        >
+          <ArrowRight size={14} />
+          חזרה לחיפוש
+        </button>
+        <p className="text-gray-500 text-xs text-center flex-1">
+          מקור: פרוטוקול מחלקתי מאושר
         </p>
       </div>
     </div>
