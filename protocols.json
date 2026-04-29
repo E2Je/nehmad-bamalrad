@@ -66,6 +66,24 @@
       "githubPath": "protocols/טבלת-אינסולין.jpg",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "הנחיות-מיהול-ab-12.2023",
+      "title": "טבלת מיהול אנטיביוטיקה",
+      "category": "medications",
+      "tags": [
+        "אנטיביוטיקה",
+        "antibiotics",
+        "IV",
+        "הזרקה",
+        "זיהום",
+        "infection"
+      ],
+      "fileName": "הנחיות-מיהול-ab-12.2023.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/הנחיות-מיהול-ab-12.2023.pdf",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
