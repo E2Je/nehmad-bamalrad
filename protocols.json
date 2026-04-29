@@ -247,6 +247,21 @@
       "githubPath": "protocols/IMG-20260313-WA0012.jpg",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "img-20260423-wa0026",
+      "title": "דגשים לטיפול בהיפונתרמיה",
+      "category": "---",
+      "tags": [
+        "היפונתרמיה",
+        "NaCl 3%",
+        "נתרן"
+      ],
+      "fileName": "IMG-20260423-WA0026.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/IMG-20260423-WA0026.jpg",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
