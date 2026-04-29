@@ -45,7 +45,7 @@ export default function SearchBar({ value, onChange, resultCount }: SearchBarPro
       </div>
 
       {value && (
-        <p className="text-blue-200 text-xs mt-2 text-center fade-in">
+        <p className="text-white/85 text-xs mt-2 text-center fade-in">
           {resultCount === 0
             ? 'לא נמצאו תוצאות'
             : `נמצאו ${resultCount} פרוטוקולים`}

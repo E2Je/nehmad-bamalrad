@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Header from './components/Header'
 import SearchBar from './components/SearchBar'
 import CategoryFilter from './components/CategoryFilter'
@@ -10,6 +10,22 @@ import { Protocol, Category } from './types'
 import rawData from './data/protocols.json'
 import { AlertCircle } from 'lucide-react'
 
+function SkeletonCard() {
+  return (
+    <div className="bg-white rounded-2xl shadow-sm p-4 flex gap-3 animate-pulse">
+      <div className="w-11 h-11 rounded-xl bg-gray-100 flex-shrink-0" />
+      <div className="flex-1 space-y-2.5">
+        <div className="h-4 bg-gray-100 rounded w-3/4" />
+        <div className="h-3 bg-gray-100 rounded w-1/2" />
+        <div className="flex gap-1.5 mt-1">
+          <div className="h-5 bg-gray-100 rounded-full w-14" />
+          <div className="h-5 bg-gray-100 rounded-full w-10" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const [protocols, setProtocols] = useState<Protocol[]>(rawData.protocols as Protocol[])
   const [categories, setCategories] = useState<Category[]>(rawData.categories as Category[])
@@ -17,8 +33,9 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState('all')
   const [selectedProtocol, setSelectedProtocol] = useState<Protocol | null>(null)
   const [showAdmin, setShowAdmin] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [dark, setDark] = useState(false)
 
-  // Try to fetch live data from GitHub
   useEffect(() => {
     fetch('https://raw.githubusercontent.com/E2Je/nehmad-bamalrad/main/protocols.json')
       .then((r) => r.ok ? r.json() : null)
@@ -26,7 +43,8 @@ export default function App() {
         if (data?.protocols) setProtocols(data.protocols)
         if (data?.categories) setCategories(data.categories)
       })
-      .catch(() => {}) // silently fall back to bundled data
+      .catch(() => {})
+      .finally(() => setLoading(false))
   }, [])
 
   const { results, ambiguous } = useSearch(protocols, query)
@@ -35,13 +53,31 @@ export default function App() {
     (p) => activeCategory === 'all' || p.category === activeCategory
   )
 
+  const counts = useMemo(() => {
+    const c: Record<string, number> = { all: results.length }
+    categories.forEach((cat) => {
+      c[cat.id] = results.filter((p) => p.category === cat.id).length
+    })
+    return c
+  }, [results, categories])
+
   const getCategoryById = (id: string) => categories.find((c) => c.id === id)
 
   return (
-    <div className="min-h-dvh flex flex-col bg-surface font-heb">
-      <Header onAdminClick={() => setShowAdmin(true)} />
+    <div className={`${dark ? 'dark' : ''} min-h-dvh flex flex-col bg-surface font-heb`}>
+      <Header
+        onAdminClick={() => setShowAdmin(true)}
+        dark={dark}
+        onDarkToggle={() => setDark((d) => !d)}
+      />
       <SearchBar value={query} onChange={setQuery} resultCount={filtered.length} />
-      <CategoryFilter categories={categories} active={activeCategory} onChange={setActiveCategory} />
+      <CategoryFilter
+        categories={categories}
+        active={activeCategory}
+        onChange={setActiveCategory}
+        counts={counts}
+        searchMode={!!query}
+      />
 
       {/* Ambiguous query hint */}
       {ambiguous && (
@@ -53,7 +89,9 @@ export default function App() {
 
       {/* Protocol list */}
       <main className="flex-1 px-4 py-3 space-y-3 pb-8 safe-bottom">
-        {filtered.length === 0 && query ? (
+        {loading ? (
+          [1, 2, 3, 4, 5].map((i) => <SkeletonCard key={i} />)
+        ) : filtered.length === 0 && query ? (
           <div className="text-center py-16 fade-in px-4">
             <p className="text-4xl mb-3">🔍</p>
             <p className="font-semibold text-gray-700">לא נמצאו תוצאות עבור &quot;{query}&quot;</p>
@@ -76,24 +114,23 @@ export default function App() {
           </div>
         ) : (
           filtered.map((p, i) => (
-            <div key={p.id} className="fade-in" style={{ animationDelay: `${i * 40}ms` }}>
+            <div key={p.id} className="fade-in" style={{ animationDelay: `${i * 45}ms` }}>
               <ProtocolCard
                 protocol={p}
                 category={getCategoryById(p.category)}
                 onClick={() => setSelectedProtocol(p)}
                 searchQuery={query}
+                index={i}
               />
             </div>
           ))
         )}
       </main>
 
-      {/* File viewer modal */}
       {selectedProtocol && (
         <FileViewer protocol={selectedProtocol} onClose={() => setSelectedProtocol(null)} />
       )}
 
-      {/* Admin panel */}
       {showAdmin && (
         <AdminPanel
           protocols={protocols}

@@ -89,3 +89,16 @@ html, body {
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 16px);
 }
+
+/* Dark mode overrides */
+.dark body              { background: #0d1117; }
+.dark .bg-surface       { background: #0d1117; }
+.dark .bg-white         { background: #161b22 !important; }
+.dark .border-gray-100  { border-color: rgba(255,255,255,0.08); }
+.dark .text-gray-900    { color: #e6edf3; }
+.dark .text-gray-700    { color: #8b949e; }
+.dark .text-gray-400    { color: #484f58; }
+.dark .bg-gray-50       { background: #21262d; }
+.dark .bg-gray-100      { background: #21262d; }
+.dark .bg-amber-50      { background: #2d2200; }
+.dark .border-amber-200 { border-color: #5a3e00; }
