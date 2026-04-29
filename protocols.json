@@ -47,6 +47,25 @@
       "githubPath": "protocols/דריפים-נפוצים.jpg",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "טבלת-אינסולין",
+      "title": "טבלת אינסולין",
+      "category": "medications",
+      "tags": [
+        "אינסולין",
+        "insulin",
+        "סוכרת",
+        "היפרגליקמיה",
+        "סוכר",
+        "גלוקוז",
+        "דצ\"ל"
+      ],
+      "fileName": "טבלת-אינסולין.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/טבלת-אינסולין.jpg",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
