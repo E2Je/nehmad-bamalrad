@@ -114,6 +114,28 @@
       "githubPath": "protocols/סוגי-אינסולין.jpg",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "img-20260423-wa0025",
+      "title": "דריפ קטמין פנטניל",
+      "category": "drips",
+      "tags": [
+        "קטמין",
+        "ketamine",
+        "הרדמה",
+        "sedation",
+        "dissociative",
+        "IV",
+        "פנטניל",
+        "fentanyl",
+        "כאב",
+        "אנלגזיה"
+      ],
+      "fileName": "IMG-20260423-WA0025.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/IMG-20260423-WA0025.jpg",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
