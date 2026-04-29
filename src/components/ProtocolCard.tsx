@@ -18,6 +18,8 @@ const CAT_COLORS: Record<string, { border: string; bg: string; color: string }> 
   other:       { border: '#64748b', bg: 'rgba(100,116,139,0.1)', color: '#64748b' },
 }
 
+const GITHUB_RAW = 'https://raw.githubusercontent.com/E2Je/nehmad-bamalrad/main'
+
 const FILE_ICON: Record<string, React.ElementType> = {
   pdf:   FileText,
   word:  FileType,
@@ -53,12 +55,31 @@ export default function ProtocolCard({ protocol, category, onClick, searchQuery,
       }}
       onClick={onClick}
     >
-      {/* Category-colored file icon */}
-      <div
-        style={{ background: catColor.bg }}
-        className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
-      >
-        <Icon size={22} style={{ color: catColor.color }} />
+      {/* Thumbnail or icon */}
+      <div className="flex-shrink-0 w-11 h-11 rounded-xl overflow-hidden">
+        {protocol.fileType === 'image' ? (
+          <img
+            src={`${GITHUB_RAW}/${protocol.githubPath}`}
+            alt={protocol.title}
+            loading="lazy"
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              const img = e.target as HTMLImageElement
+              img.style.display = 'none'
+              if (img.parentElement) {
+                img.parentElement.style.background = catColor.bg
+                img.parentElement.innerHTML = `<div class="w-full h-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${catColor.color}" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>`
+              }
+            }}
+          />
+        ) : (
+          <div
+            style={{ background: catColor.bg }}
+            className="w-full h-full flex items-center justify-center"
+          >
+            <Icon size={22} style={{ color: catColor.color }} />
+          </div>
+        )}
       </div>
 
       {/* Content */}
