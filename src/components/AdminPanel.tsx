@@ -29,36 +29,48 @@ function detectFileType(file: File): FileType {
 function suggestTags(filename: string, title: string): string[] {
   const combined = (filename + ' ' + title).toLowerCase()
   const map: Record<string, string[]> = {
-    'קטמין':       ['קטמין','ketamine','הרדמה','sedation'],
-    'ketamine':    ['קטמין','ketamine','הרדמה'],
-    'פנטניל':      ['פנטניל','fentanyl','כאב','אנלגזיה'],
-    'fentanyl':    ['פנטניל','fentanyl','כאב'],
-    'מורפין':      ['מורפין','morphine','כאב','אופיואיד'],
-    'morphine':    ['מורפין','morphine','אופיואיד'],
-    'אינסולין':    ['אינסולין','insulin','סוכר','סוכרת','גלוקוז'],
-    'insulin':     ['אינסולין','insulin','סוכר'],
-    'נתרן':        ['נתרן','sodium','היפונתרמיה','NaCl'],
-    'hyponatr':    ['היפונתרמיה','נתרן נמוך','sodium'],
-    'אנטיביוטיקה': ['אנטיביוטיקה','antibiotics','IV','הזרקה'],
-    'antibiotic':  ['אנטיביוטיקה','antibiotics'],
-    'דריף':        ['דריף','drip','עירוי','infusion'],
-    'drip':        ['דריף','drip','עירוי'],
-    'היפו':        ['היפו','hypoglycemia','סוכר נמוך'],
-    'dka':         ['DKA','קטואצידוזיס','סוכרת','סוכר גבוה'],
-    'פרוטוקול':   ['פרוטוקול','protocol'],
-    'טבלה':        ['טבלה','table'],
-    'חירום':       ['חירום','emergency'],
-    'לחץ דם':     ['לחץ דם','BP','היפוטנסיה'],
-    'קרישה':      ['קרישה','coagulation','anticoagulant'],
-    'הרדמה':      ['הרדמה','sedation','anesthesia'],
-    'כאב':        ['כאב','pain','אנלגזיה'],
-    'חמצן':       ['חמצן','oxygen','O2','סטורציה'],
+    'קטמין':        ['קטמין','ketamine','הרדמה','sedation','dissociative','IV'],
+    'ketamine':     ['קטמין','ketamine','הרדמה','sedation','dissociative'],
+    'פנטניל':       ['פנטניל','fentanyl','כאב','אנלגזיה','אופיואיד','IV','drip'],
+    'fentanyl':     ['פנטניל','fentanyl','כאב','אנלגזיה','אופיואיד'],
+    'מורפין':       ['מורפין','morphine','כאב','אופיואיד','אנלגזיה','PCA'],
+    'morphine':     ['מורפין','morphine','כאב','אופיואיד','אנלגזיה'],
+    'אינסולין':     ['אינסולין','insulin','סוכר','סוכרת','גלוקוז','היפרגליקמיה','דצ"ל'],
+    'insulin':      ['אינסולין','insulin','סוכר','סוכרת','גלוקוז'],
+    'נתרן':         ['נתרן','sodium','היפונתרמיה','NaCl 3%','אלקטרוליטים','ODS'],
+    'hyponatr':     ['היפונתרמיה','נתרן נמוך','sodium','NaCl 3%','אלקטרוליטים','ODS'],
+    'אנטיביוטיקה':  ['אנטיביוטיקה','antibiotics','IV','הזרקה','זיהום','infection'],
+    'antibiotic':   ['אנטיביוטיקה','antibiotics','IV','infection'],
+    'ונקומיצין':    ['ונקומיצין','vancomycin','אנטיביוטיקה','MRSA','IV'],
+    'vancomycin':   ['ונקומיצין','vancomycin','MRSA','אנטיביוטיקה'],
+    'מרופנם':       ['מרופנם','meropenem','carbapenem','אנטיביוטיקה','IV'],
+    'דריף':         ['דריף','drip','עירוי','infusion','IV','pump'],
+    'drip':         ['דריף','drip','עירוי','infusion','IV'],
+    'היפו':         ['היפוגליקמיה','סוכר נמוך','hypoglycemia','גלוקוז','D50'],
+    'dka':          ['DKA','קטואצידוזיס','סוכרת','סוכר גבוה','אינסולין','אשלגן'],
+    'לחץ דם':      ['לחץ דם','BP','היפוטנסיה','shock','עירוי'],
+    'קרישה':       ['קרישה','coagulation','anticoagulant','הפרין','heparin','INR'],
+    'הרדמה':       ['הרדמה','sedation','anesthesia','RSI','אינטובציה'],
+    'אינטובציה':   ['אינטובציה','intubation','RSI','airway','הרדמה'],
+    'intubat':      ['אינטובציה','intubation','RSI','airway'],
+    'חמצן':        ['חמצן','oxygen','O2','סטורציה','SpO2','נשימה'],
+    'ספירומטריה':  ['ספירומטריה','spirometry','FEV','ריאות'],
+    'פרוטוקול':    ['פרוטוקול','protocol','הנחיה'],
+    'טבלה':        ['טבלה','table','מינון','dosage'],
+    'חירום':       ['חירום','emergency','קוד'],
+    'קרדיו':       ['קרדיולוגיה','לב','cardiac','EKG','ECG'],
+    'ekg':          ['EKG','ECG','לב','קרדיולוגיה','cardiac'],
+    'נוירו':       ['נוירולוגיה','מוח','stroke','CVA'],
+    'stroke':       ['stroke','CVA','נוירולוגיה','מוח','tPA'],
+    'sepsis':       ['ספסיס','sepsis','זיהום','אנטיביוטיקה','shock'],
+    'ספסיס':       ['ספסיס','sepsis','זיהום','shock','אנטיביוטיקה'],
+    'כאב':         ['כאב','pain','אנלגזיה','VAS','אופיואיד'],
   }
   const suggestions: string[] = []
   for (const [key, tags] of Object.entries(map)) {
     if (combined.includes(key)) suggestions.push(...tags)
   }
-  return [...new Set(suggestions)]
+  return [...new Set(suggestions)].slice(0, 10)
 }
 
 // ── Tags component ────────────────────────────────────────────────────────────
