@@ -158,6 +158,17 @@
       "githubPath": "protocols/פרוטוקול-אינסולין-בDKA-1.PNG",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "-אנזימי-כבד",
+      "title": "‎⁨ אנזימי כבד⁩",
+      "category": "-",
+      "tags": [],
+      "fileName": "-אנזימי-כבד.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/-אנזימי-כבד.pdf",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
