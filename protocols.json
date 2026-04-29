@@ -196,6 +196,17 @@
       "githubPath": "protocols/__טרופונין-וCK_.pdf",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "היפונתרמיה.pdf",
+      "title": "היפונתרמיה.pdf",
+      "category": "---",
+      "tags": [],
+      "fileName": "היפונתרמיה.pdf.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/היפונתרמיה.pdf.pdf",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
