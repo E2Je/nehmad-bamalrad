@@ -27,7 +27,7 @@ export default function SearchBar({ value, onChange, resultCount }: SearchBarPro
           inputMode="search"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="חפש פרוטוקול, תרופה, פרוצדורה..."
+          placeholder="חפש/י פרוטוקול, תרופה, פרוצדורה..."
           className="w-full bg-white rounded-2xl py-3.5 pr-12 pl-10 text-base font-medium text-gray-800 placeholder:text-gray-400 shadow-lg outline-none focus:ring-2 focus:ring-primary-light transition-shadow"
           dir="rtl"
           autoComplete="off"
