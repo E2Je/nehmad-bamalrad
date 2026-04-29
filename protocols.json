@@ -136,6 +136,28 @@
       "githubPath": "protocols/IMG-20260423-WA0025.jpg",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "פרוטוקול-אינסולין-בdka-1",
+      "title": "פרוטוקול אינסולין בDKA",
+      "category": "protocols",
+      "tags": [
+        "אינסולין",
+        "insulin",
+        "סוכר",
+        "סוכרת",
+        "גלוקוז",
+        "היפרגליקמיה",
+        "דצ\"ל",
+        "DKA",
+        "קטואצידוזיס",
+        "סוכר גבוה"
+      ],
+      "fileName": "פרוטוקול-אינסולין-בDKA-1.PNG",
+      "fileType": "image",
+      "githubPath": "protocols/פרוטוקול-אינסולין-בDKA-1.PNG",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
