@@ -207,6 +207,17 @@
       "githubPath": "protocols/היפונתרמיה.pdf.pdf",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "כלבת",
+      "title": "כלבת",
+      "category": "---",
+      "tags": [],
+      "fileName": "כלבת.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/כלבת.pdf",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
