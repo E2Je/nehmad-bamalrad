@@ -280,6 +280,26 @@
       "githubPath": "protocols/קרישת-דם.pdf",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "קטמין-פנטניל",
+      "title": "קטמין פנטניל",
+      "category": "drips",
+      "tags": [
+        "קטמין",
+        "ketamine",
+        "הרדמה",
+        "sedation",
+        "fentanyl",
+        "פנטניל",
+        "IV",
+        "אנלגזיה"
+      ],
+      "fileName": "קטמין-פנטניל.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/קטמין-פנטניל.pdf",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
