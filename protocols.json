@@ -169,6 +169,17 @@
       "githubPath": "protocols/-אנזימי-כבד.pdf",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "גזים-בדם.pdf",
+      "title": "גזים בדם.pdf",
+      "category": "-",
+      "tags": [],
+      "fileName": "גזים-בדם.pdf.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/גזים-בדם.pdf.pdf",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
     }
   ]
 }
