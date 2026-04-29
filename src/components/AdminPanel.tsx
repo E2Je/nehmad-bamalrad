@@ -584,7 +584,25 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
               {categories.map((cat, i) => (
                 <div key={cat.id} className={`flex items-center gap-3 px-4 py-3.5 ${i < categories.length - 1 ? 'border-b border-gray-50' : ''}`}>
                   <span className="text-2xl">{cat.emoji}</span>
-                  <span className="font-medium text-gray-800">{cat.label}</span>
+                  <span className="font-medium text-gray-800 flex-1">{cat.label}</span>
+                  <button
+                    onClick={async () => {
+                      if (!window.confirm(`למחוק את הקטגוריה "${cat.label}"?\nפרוטוקולים בקטגוריה זו לא יימחקו.`)) return
+                      const updated = categories.filter((c) => c.id !== cat.id)
+                      try {
+                        const res = await fetch('/api/update-categories', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ categories: updated }),
+                        })
+                        if (!res.ok) throw new Error()
+                        onCategoriesChange(updated)
+                      } catch { alert('שגיאה במחיקה') }
+                    }}
+                    className="p-2 bg-red-50 text-red-400 hover:bg-red-100 rounded-lg transition-colors flex-shrink-0"
+                  >
+                    <Trash2 size={15} />
+                  </button>
                 </div>
               ))}
             </div>
