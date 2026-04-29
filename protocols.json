@@ -1,11 +1,47 @@
 {
   "categories": [
-    { "id": "drips", "label": "דריפים", "emoji": "💉" },
-    { "id": "medications", "label": "תרופות", "emoji": "💊" },
-    { "id": "antibiotics", "label": "אנטיביוטיקה", "emoji": "🧪" },
-    { "id": "protocols", "label": "פרוטוקולים", "emoji": "📋" },
-    { "id": "procedures", "label": "פרוצדורות", "emoji": "🩺" },
-    { "id": "other", "label": "אחר", "emoji": "📁" }
+    {
+      "id": "drips",
+      "label": "דריפים",
+      "emoji": "💉"
+    },
+    {
+      "id": "medications",
+      "label": "תרופות",
+      "emoji": "💊"
+    },
+    {
+      "id": "antibiotics",
+      "label": "אנטיביוטיקה",
+      "emoji": "🧪"
+    },
+    {
+      "id": "protocols",
+      "label": "פרוטוקולים",
+      "emoji": "📋"
+    },
+    {
+      "id": "procedures",
+      "label": "פרוצדורות",
+      "emoji": "🩺"
+    },
+    {
+      "id": "other",
+      "label": "אחר",
+      "emoji": "📁"
+    }
   ],
-  "protocols": []
+  "protocols": [
+    {
+      "id": "whatsapp-image-2026-04-29-at-09.20.19",
+      "title": "WhatsApp Image 2026 04 29 at 09.20.19",
+      "category": "protocols",
+      "tags": [],
+      "fileName": "WhatsApp-Image-2026-04-29-at-09.20.19.jpeg",
+      "fileType": "image",
+      "githubPath": "protocols/WhatsApp-Image-2026-04-29-at-09.20.19.jpeg",
+      "updatedAt": "2026-04-29",
+      "isLatest": true
+    }
+  ]
 }
