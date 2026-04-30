@@ -357,6 +357,19 @@
       "githubPath": "protocols/IMG-20260430-WA0002.jpg",
       "updatedAt": "2026-04-30",
       "isLatest": true
+    },
+    {
+      "id": "vernakalant-brinavess",
+      "title": "VERNAKALANT (BRINAVESS)",
+      "category": "medications",
+      "tags": [
+        "תרופה אנטי אריטמית"
+      ],
+      "fileName": "VERNAKALANT-BRINAVESS.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/VERNAKALANT-BRINAVESS.pdf",
+      "updatedAt": "2026-04-30",
+      "isLatest": true
     }
   ]
 }
