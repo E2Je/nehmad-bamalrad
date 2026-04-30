@@ -184,11 +184,18 @@
       "id": "גזים-בדם.pdf",
       "title": "גזים בדם.pdf",
       "category": "-",
-      "tags": [],
+      "tags": [
+        "Ph",
+        "pc02",
+        "hco3",
+        "חמצת",
+        "בססת",
+        "ביקרבונט"
+      ],
       "fileName": "גזים-בדם.pdf.pdf",
       "fileType": "pdf",
       "githubPath": "protocols/גזים-בדם.pdf.pdf",
-      "updatedAt": "2026-04-29",
+      "updatedAt": "2026-04-30",
       "isLatest": true
     },
     {
