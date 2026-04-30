@@ -370,6 +370,21 @@
       "githubPath": "protocols/VERNAKALANT-BRINAVESS.pdf",
       "updatedAt": "2026-04-30",
       "isLatest": true
+    },
+    {
+      "id": "חצבת-2",
+      "title": "חצבת ",
+      "category": "---",
+      "tags": [
+        "חצבת",
+        "פריחה",
+        "חום"
+      ],
+      "fileName": "חצבת-2.pptx",
+      "fileType": "ppt",
+      "githubPath": "protocols/חצבת-2.pptx",
+      "updatedAt": "2026-04-30",
+      "isLatest": true
     }
   ]
 }
