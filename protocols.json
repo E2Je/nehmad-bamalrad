@@ -324,6 +324,23 @@
       "githubPath": "protocols/__פגיעות-בעלי-חיים_.pdf",
       "updatedAt": "2026-04-29",
       "isLatest": true
+    },
+    {
+      "id": "img-20260430-wa0002",
+      "title": "סכמת טיפול ספסיס",
+      "category": "---",
+      "tags": [
+        "ספסיס",
+        "sepsis",
+        "זיהום",
+        "shock",
+        "אנטיביוטיקה"
+      ],
+      "fileName": "IMG-20260430-WA0002.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/IMG-20260430-WA0002.jpg",
+      "updatedAt": "2026-04-30",
+      "isLatest": true
     }
   ]
 }
