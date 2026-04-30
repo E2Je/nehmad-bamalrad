@@ -17,24 +17,25 @@ export default function Header({ onAdminClick, dark, onDarkToggle }: HeaderProps
   }, [])
 
   return (
-    <header className="bg-primary text-white px-4 pt-4 pb-3">
+    <header className="bg-primary text-white">
       <div
-        className="flex items-center justify-between header-inner"
+        className="flex items-center justify-between px-4"
         style={{
-          paddingTop: compact ? 7 : 10,
-          paddingBottom: compact ? 7 : 10,
+          paddingTop: compact ? 8 : 12,
+          paddingBottom: compact ? 8 : 12,
           transition: 'padding 0.3s ease',
         }}
       >
-        {/* Logo + Title block */}
-        <div className="flex items-center gap-3">
+        {/* Logo + Title */}
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
           <img
             src="/logo.png"
-            alt="לוגו נחמד במלר״ד"
-            className="w-12 h-12 rounded-2xl object-cover shadow-lg flex-shrink-0"
+            alt="לוגו"
+            className="rounded-xl object-cover shadow-md flex-shrink-0"
             style={{
-              transform: compact ? 'scale(0.88)' : 'scale(1)',
-              transition: 'transform 0.3s ease',
+              width: compact ? 36 : 44,
+              height: compact ? 36 : 44,
+              transition: 'width 0.3s ease, height 0.3s ease',
             }}
             onError={(e) => {
               const img = e.target as HTMLImageElement
@@ -42,43 +43,42 @@ export default function Header({ onAdminClick, dark, onDarkToggle }: HeaderProps
               img.onerror = () => { img.style.display = 'none' }
             }}
           />
-          <div>
-            <h1 className="text-2xl font-extrabold leading-tight tracking-tight">
+          <div className="min-w-0">
+            <h1 className="text-lg font-extrabold leading-tight tracking-tight">
               נחמד במלר&quot;ד
             </h1>
-            <p className="text-blue-100 text-xs leading-snug mt-0.5">
-              כל מה שרצית לדעת ולא העזת לשאול
-            </p>
-            <p className="text-blue-200 text-xs leading-snug">
-              מלר&quot;ד הדסה עין כרם
-            </p>
+            {!compact && (
+              <p className="text-blue-200 text-[11px] leading-snug truncate">
+                מלר&quot;ד הדסה עין כרם
+              </p>
+            )}
           </div>
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-1.5 flex-shrink-0">
           <a
             href="https://notebooklm.google.com/notebook/6697a610-54f5-4bba-a725-ae6f9fab23c5?authuser=4"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 active:bg-white/30 rounded-xl px-3 py-2 text-xs font-semibold transition-colors"
+            className="p-2.5 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-xl transition-colors"
+            aria-label="שאלות חופשיות"
           >
-            <ExternalLink size={13} />
-            שאלות חופשיות
+            <ExternalLink size={17} />
           </a>
           <button
             onClick={onDarkToggle}
             className="p-2.5 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-xl transition-colors"
             aria-label="dark mode"
           >
-            {dark ? <Sun size={16} /> : <Moon size={16} />}
+            {dark ? <Sun size={17} /> : <Moon size={17} />}
           </button>
           <button
             onClick={onAdminClick}
             className="p-2.5 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-xl transition-colors"
             aria-label="כניסת מנהל"
           >
-            <Shield size={18} />
+            <Shield size={17} />
           </button>
         </div>
       </div>
