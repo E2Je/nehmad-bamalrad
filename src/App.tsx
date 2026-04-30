@@ -36,6 +36,24 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [dark, setDark] = useState(false)
 
+  // Push history entry when modals open so back button closes them
+  useEffect(() => {
+    if (selectedProtocol) window.history.pushState({ modal: 'viewer' }, '')
+  }, [selectedProtocol])
+
+  useEffect(() => {
+    if (showAdmin) window.history.pushState({ modal: 'admin' }, '')
+  }, [showAdmin])
+
+  useEffect(() => {
+    const onPopState = () => {
+      if (selectedProtocol) setSelectedProtocol(null)
+      else if (showAdmin) setShowAdmin(false)
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [selectedProtocol, showAdmin])
+
   useEffect(() => {
     fetch('https://raw.githubusercontent.com/E2Je/nehmad-bamalrad/main/protocols.json')
       .then((r) => r.ok ? r.json() : null)
@@ -136,14 +154,23 @@ export default function App() {
       </footer>
 
       {selectedProtocol && (
-        <FileViewer protocol={selectedProtocol} onClose={() => setSelectedProtocol(null)} />
+        <FileViewer
+          protocol={selectedProtocol}
+          onClose={() => {
+            setSelectedProtocol(null)
+            if (window.history.state?.modal) window.history.back()
+          }}
+        />
       )}
 
       {showAdmin && (
         <AdminPanel
           protocols={protocols}
           categories={categories}
-          onClose={() => setShowAdmin(false)}
+          onClose={() => {
+            setShowAdmin(false)
+            if (window.history.state?.modal) window.history.back()
+          }}
           onProtocolsChange={setProtocols}
           onCategoriesChange={setCategories}
         />
