@@ -419,6 +419,22 @@
       "githubPath": "protocols/מתן-גלוקגון-להיפוגליקמיה.pdf",
       "updatedAt": "2026-05-01",
       "isLatest": true
+    },
+    {
+      "id": "פרוטוקול-הכנת-פיברינוגן-מרוכז",
+      "title": "פרוטוקול הכנת פיברינוגן מרוכז",
+      "category": "medications",
+      "tags": [
+        "טראומה",
+        "קרישה",
+        "פיברינוגן",
+        "פרוטוקול"
+      ],
+      "fileName": "פרוטוקול-הכנת-פיברינוגן-מרוכז.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/פרוטוקול-הכנת-פיברינוגן-מרוכז.pdf",
+      "updatedAt": "2026-05-01",
+      "isLatest": true
     }
   ]
 }
