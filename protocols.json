@@ -450,6 +450,21 @@
       "githubPath": "protocols/מתן-פיברינוגן-מרוכז-בטראומה.pdf",
       "updatedAt": "2026-05-01",
       "isLatest": true
+    },
+    {
+      "id": "הפרעות-במאזן-הסידן",
+      "title": "הפרעות במאזן הסידן",
+      "category": "---",
+      "tags": [
+        "סידן",
+        "היפוקלצמיה",
+        "היפרקלצמיה"
+      ],
+      "fileName": "הפרעות-במאזן-הסידן.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/הפרעות-במאזן-הסידן.pdf",
+      "updatedAt": "2026-05-01",
+      "isLatest": true
     }
   ]
 }
