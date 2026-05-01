@@ -435,6 +435,21 @@
       "githubPath": "protocols/פרוטוקול-הכנת-פיברינוגן-מרוכז.pdf",
       "updatedAt": "2026-05-01",
       "isLatest": true
+    },
+    {
+      "id": "מתן-פיברינוגן-מרוכז-בטראומה",
+      "title": "מתן פיברינוגן מרוכז בטראומה",
+      "category": "medications",
+      "tags": [
+        "טראומה",
+        "קרישה",
+        "פיברינוגן"
+      ],
+      "fileName": "מתן-פיברינוגן-מרוכז-בטראומה.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/מתן-פיברינוגן-מרוכז-בטראומה.pdf",
+      "updatedAt": "2026-05-01",
+      "isLatest": true
     }
   ]
 }
