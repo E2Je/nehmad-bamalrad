@@ -465,6 +465,26 @@
       "githubPath": "protocols/הפרעות-במאזן-הסידן.pdf",
       "updatedAt": "2026-05-01",
       "isLatest": true
+    },
+    {
+      "id": "טיפול-בנוזלים",
+      "title": "טיפול בנוזלים",
+      "category": "medications",
+      "tags": [
+        "נוזלים",
+        "Nacl",
+        "D5%",
+        "0.9%",
+        "0.45%",
+        "היפונתרמיה",
+        "היפרנתרמיה",
+        "התייבשות"
+      ],
+      "fileName": "טיפול-בנוזלים.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/טיפול-בנוזלים.pdf",
+      "updatedAt": "2026-05-01",
+      "isLatest": true
     }
   ]
 }
