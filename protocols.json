@@ -482,6 +482,24 @@
       "githubPath": "protocols/טיפול-בנוזלים.pdf",
       "updatedAt": "2026-05-01",
       "isLatest": true
+    },
+    {
+      "id": "פענוח-אקג1",
+      "title": "פענוח אקג",
+      "category": "--",
+      "tags": [
+        "אירוע לבבי",
+        "שינויים באק\"ג",
+        "עליות st",
+        "Nstemi",
+        "מרווח pr",
+        "גל p"
+      ],
+      "fileName": "פענוח-אקג1.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/פענוח-אקג1.pdf",
+      "updatedAt": "2026-05-01",
+      "isLatest": true
     }
   ]
 }
