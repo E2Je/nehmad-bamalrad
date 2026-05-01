@@ -400,6 +400,25 @@
       "githubPath": "protocols/בלוק-עצבי--הדרכה.pdf",
       "updatedAt": "2026-05-01",
       "isLatest": true
+    },
+    {
+      "id": "מתן-גלוקגון-להיפוגליקמיה",
+      "title": "מתן גלוקגון להיפוגליקמיה",
+      "category": "medications",
+      "tags": [
+        "היפוגליקמיה",
+        "סוכר נמוך",
+        "hypoglycemia",
+        "גלוקוז",
+        "D50",
+        "גלוקגון",
+        "הרעלת בטא בלוקרים"
+      ],
+      "fileName": "מתן-גלוקגון-להיפוגליקמיה.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/מתן-גלוקגון-להיפוגליקמיה.pdf",
+      "updatedAt": "2026-05-01",
+      "isLatest": true
     }
   ]
 }
