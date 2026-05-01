@@ -385,6 +385,21 @@
       "githubPath": "protocols/חצבת-2.pptx",
       "updatedAt": "2026-04-30",
       "isLatest": true
+    },
+    {
+      "id": "בלוק-עצבי--הדרכה",
+      "title": "בלוק עצבי  הדרכה",
+      "category": "procedures",
+      "tags": [
+        "בלוק",
+        "Block",
+        "כאב"
+      ],
+      "fileName": "בלוק-עצבי--הדרכה.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/בלוק-עצבי--הדרכה.pdf",
+      "updatedAt": "2026-05-01",
+      "isLatest": true
     }
   ]
 }
