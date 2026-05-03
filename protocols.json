@@ -523,6 +523,25 @@
       "githubPath": "protocols/פענוח-אקג1.pdf",
       "updatedAt": "2026-05-01",
       "isLatest": true
+    },
+    {
+      "id": "פענוח-אקג",
+      "title": "פענוח אקג",
+      "category": "--",
+      "tags": [
+        "אק\"ג",
+        "EKG",
+        "טרופונין",
+        "CPK",
+        "שינויים באק\"ג",
+        "כאבים בחזה",
+        "אירוע לבבי"
+      ],
+      "fileName": "פענוח-אקג.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/פענוח-אקג.pdf",
+      "updatedAt": "2026-05-03",
+      "isLatest": true
     }
   ]
 }
