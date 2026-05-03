@@ -352,7 +352,7 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
   async function handleAddCategory() {
     if (!newCatLabel.trim()) return
     const id = `cat_${Date.now()}`
-    if (categories.find((c) => c.id === id)) { setCatMsg('קטגוריה עם שם זה כבר קיימת'); return }
+    if (categories.find((c) => c.label.trim() === newCatLabel.trim())) { setCatMsg('קטגוריה עם שם זה כבר קיימת'); return }
     const updated = [...categories, { id, label: newCatLabel.trim(), emoji: newCatEmoji }]
     try {
       const res = await fetch('/api/update-categories', {
