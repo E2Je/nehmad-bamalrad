@@ -114,16 +114,16 @@ export default function FileViewer({ protocol, onClose }: FileViewerProps) {
         style={{ touchAction: isImage ? 'pan-x pan-y' : 'auto' }}
       >
         {isImage && (
-          <div className="flex justify-center p-4" style={{ minHeight: '100%' }}>
+          <div style={{ width: `${Math.max(zoom, 1) * 100}%`, minHeight: '100%', padding: '16px' }}>
             <img
               src={rawUrl}
               alt={protocol.title}
               draggable={false}
               className="rounded-xl shadow-2xl select-none"
               style={{
-                width: `${zoom * 100}%`,
+                width: '100%',
                 maxWidth: 'none',
-                transition: 'width 0.05s ease',
+                display: 'block',
               }}
               onError={(e) => {
                 const el = e.target as HTMLImageElement
