@@ -590,6 +590,24 @@
       "githubPath": "protocols/פתיחת-חזה-בטראומה.pdf",
       "updatedAt": "2026-05-04",
       "isLatest": true
+    },
+    {
+      "id": "פציעות-חודרות-בטראומה",
+      "title": "פציעות חודרות בטראומה",
+      "category": "cat_1777796063982",
+      "tags": [
+        "טראומה",
+        "פציעה חודרת",
+        "דקירה",
+        "רסיסים",
+        "ירי",
+        "דימום פורץ"
+      ],
+      "fileName": "פציעות-חודרות-בטראומה.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/פציעות-חודרות-בטראומה.pdf",
+      "updatedAt": "2026-05-04",
+      "isLatest": true
     }
   ]
 }
