@@ -575,6 +575,21 @@
       "githubPath": "protocols/נקז-חזה-בטראומה-ובמלרד.pdf",
       "updatedAt": "2026-05-04",
       "isLatest": true
+    },
+    {
+      "id": "פתיחת-חזה-בטראומה",
+      "title": "פתיחת חזה בטראומה",
+      "category": "cat_1777796063982",
+      "tags": [
+        "פתיחת בית חזה",
+        "טראומה",
+        "חבלת חזה"
+      ],
+      "fileName": "פתיחת-חזה-בטראומה.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/פתיחת-חזה-בטראומה.pdf",
+      "updatedAt": "2026-05-04",
+      "isLatest": true
     }
   ]
 }
