@@ -557,6 +557,24 @@
       "githubPath": "protocols/פענוח-אקג.pdf",
       "updatedAt": "2026-05-03",
       "isLatest": true
+    },
+    {
+      "id": "נקז-חזה-בטראומה-ובמלרד",
+      "title": "נקז חזה בטראומה ובמלרד",
+      "category": "cat_1777796063982",
+      "tags": [
+        "נקז חזה",
+        "פנאומוטורקס",
+        "המוטורקס",
+        "חזה אוויר",
+        "טראומה",
+        "אמרסון"
+      ],
+      "fileName": "נקז-חזה-בטראומה-ובמלרד.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/נקז-חזה-בטראומה-ובמלרד.pdf",
+      "updatedAt": "2026-05-04",
+      "isLatest": true
     }
   ]
 }
