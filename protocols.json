@@ -608,6 +608,23 @@
       "githubPath": "protocols/פציעות-חודרות-בטראומה.pdf",
       "updatedAt": "2026-05-04",
       "isLatest": true
+    },
+    {
+      "id": "img-20260504-wa00091",
+      "title": "Brinavess /vernakalant",
+      "category": "medications",
+      "tags": [
+        "Brinavess",
+        "vernakalant",
+        "אנטי אריתמי",
+        "פרפור פרוזדורים",
+        "AF"
+      ],
+      "fileName": "IMG-20260504-WA00091.jpg",
+      "fileType": "image",
+      "githubPath": "protocols/IMG-20260504-WA00091.jpg",
+      "updatedAt": "2026-05-06",
+      "isLatest": true
     }
   ]
 }
