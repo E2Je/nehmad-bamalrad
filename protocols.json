@@ -639,6 +639,17 @@
       "githubPath": "protocols/ממשק-עבודה-אאג-ומלרד-הדסה-4-1.pdf",
       "updatedAt": "2026-05-06",
       "isLatest": true
+    },
+    {
+      "id": "חדר-הלם",
+      "title": "חדר הלם",
+      "category": "cat_1777796079347",
+      "tags": [],
+      "fileName": "חדר-הלם.docx",
+      "fileType": "word",
+      "githubPath": "protocols/חדר-הלם.docx",
+      "updatedAt": "2026-05-06",
+      "isLatest": true
     }
   ]
 }
