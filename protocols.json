@@ -650,6 +650,22 @@
       "githubPath": "protocols/חדר-הלם.docx",
       "updatedAt": "2026-05-06",
       "isLatest": true
+    },
+    {
+      "id": "הנחיות-למתן---praxbind",
+      "title": "הנחיות למתן   PRAXBIND",
+      "category": "medications",
+      "tags": [
+        "פרדקסה",
+        "אנטידוט",
+        "Predaxa",
+        "Dabigatran"
+      ],
+      "fileName": "הנחיות-למתן---PRAXBIND.docx",
+      "fileType": "word",
+      "githubPath": "protocols/הנחיות-למתן---PRAXBIND.docx",
+      "updatedAt": "2026-05-06",
+      "isLatest": true
     }
   ]
 }
