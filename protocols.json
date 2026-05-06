@@ -625,6 +625,20 @@
       "githubPath": "protocols/IMG-20260504-WA00091.jpg",
       "updatedAt": "2026-05-06",
       "isLatest": true
+    },
+    {
+      "id": "ממשק-עבודה-אאג-ומלרד-הדסה-4-1",
+      "title": "ממשק עבודה אאג ומלרד הדסה  (4) 1",
+      "category": "protocols",
+      "tags": [
+        "אאג",
+        "אף אוזן גרון"
+      ],
+      "fileName": "ממשק-עבודה-אאג-ומלרד-הדסה-4-1.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/ממשק-עבודה-אאג-ומלרד-הדסה-4-1.pdf",
+      "updatedAt": "2026-05-06",
+      "isLatest": true
     }
   ]
 }
