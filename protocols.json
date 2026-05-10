@@ -696,6 +696,22 @@
       "githubPath": "protocols/מכת-חום-בטראומה--יוני-2024.pdf",
       "updatedAt": "2026-05-10",
       "isLatest": true
+    },
+    {
+      "id": "tpa-15.5.24",
+      "title": " מצגת TPA",
+      "category": "---",
+      "tags": [
+        "TPA",
+        "CVA",
+        "Nihss",
+        "שבץ מוחי"
+      ],
+      "fileName": "TPA-15.5.24.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/TPA-15.5.24.pdf",
+      "updatedAt": "2026-05-10",
+      "isLatest": true
     }
   ]
 }
