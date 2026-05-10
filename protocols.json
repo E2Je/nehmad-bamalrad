@@ -727,6 +727,25 @@
       "githubPath": "protocols/NIHSS-עדכון-ידע-מרץ-ו.pdf",
       "updatedAt": "2026-05-10",
       "isLatest": true
+    },
+    {
+      "id": "stroke-bells-palsy",
+      "title": "STROKE +BELL'S PALSY",
+      "category": "---",
+      "tags": [
+        "stroke",
+        "CVA",
+        "נוירולוגיה",
+        "מוח",
+        "tPA",
+        "Bell's palsy",
+        "שיתוק עצב 7"
+      ],
+      "fileName": "STROKE-BELLS-PALSY.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/STROKE-BELLS-PALSY.pdf",
+      "updatedAt": "2026-05-10",
+      "isLatest": true
     }
   ]
 }
