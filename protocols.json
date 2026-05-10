@@ -666,6 +666,21 @@
       "githubPath": "protocols/הנחיות-למתן---PRAXBIND.docx",
       "updatedAt": "2026-05-06",
       "isLatest": true
+    },
+    {
+      "id": "doc-20260315-wa0043_260510_112723",
+      "title": "מצגת אט\"ה",
+      "category": "cat_1778405263283",
+      "tags": [
+        "אט\"ה",
+        "טוקסיקולוגי",
+        "אירוע רב נפגעים"
+      ],
+      "fileName": "DOC-20260315-WA0043_260510_112723.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/DOC-20260315-WA0043_260510_112723.pdf",
+      "updatedAt": "2026-05-10",
+      "isLatest": true
     }
   ]
 }
