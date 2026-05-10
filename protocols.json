@@ -712,6 +712,21 @@
       "githubPath": "protocols/TPA-15.5.24.pdf",
       "updatedAt": "2026-05-10",
       "isLatest": true
+    },
+    {
+      "id": "nihss-עדכון-ידע-מרץ-ו",
+      "title": "NIHSS ושבץ",
+      "category": "---",
+      "tags": [
+        "שבץ מוחי",
+        "CVA",
+        "NIHSS"
+      ],
+      "fileName": "NIHSS-עדכון-ידע-מרץ-ו.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/NIHSS-עדכון-ידע-מרץ-ו.pdf",
+      "updatedAt": "2026-05-10",
+      "isLatest": true
     }
   ]
 }
