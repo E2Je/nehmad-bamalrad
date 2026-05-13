@@ -783,6 +783,25 @@
       "githubPath": "protocols/הפניית-מטופל-לבדיקת-CT-ראש-ללא-חומר-ניגוד-במבוגרים.pdf",
       "updatedAt": "2026-05-13",
       "isLatest": true
+    },
+    {
+      "id": "נוהל-אומדן-כאב",
+      "title": "נוהל אומדן כאב",
+      "category": "cat_1778691941037",
+      "tags": [
+        "כאב",
+        "pain",
+        "אנלגזיה",
+        "VAS",
+        "אופיואיד",
+        "נוהל",
+        "אומדן"
+      ],
+      "fileName": "נוהל-אומדן-כאב.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/נוהל-אומדן-כאב.pdf",
+      "updatedAt": "2026-05-13",
+      "isLatest": true
     }
   ]
 }
