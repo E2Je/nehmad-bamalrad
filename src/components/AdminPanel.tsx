@@ -326,8 +326,8 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
 
     try {
       // PDFs/Word > 3MB will exceed Vercel's 4.5MB limit after base64 encoding
-      if (!file.type.startsWith('image/') && file.size > 3 * 1024 * 1024) {
-        throw new Error('הקובץ גדול מדי (מקסימום 3MB לקבצי PDF/Word)')
+      if (!file.type.startsWith('image/') && file.size > 7 * 1024 * 1024) {
+        throw new Error('הקובץ גדול מדי (מקסימום 7MB לקבצי PDF/Word)')
       }
 
       const base64 = await getBase64(file)
