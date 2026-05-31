@@ -213,12 +213,12 @@ function TagsSection({ suggested, confirmed, onAccept, onAcceptAll, onRemove, on
 }
 
 // ── Login screen ───────────────────────────────────────────────────────────────
-function LoginSheet({ onSuccess, onClose }: { onSuccess: () => void; onClose: () => void }) {
+function LoginSheet({ onSuccess, onClose }: { onSuccess: (code: string) => void; onClose: () => void }) {
   const [code, setCode] = useState('')
   const [error, setError] = useState(false)
 
   function attempt() {
-    if (ADMIN_CODES.includes(code.trim())) { onSuccess() }
+    if (ADMIN_CODES.includes(code.trim())) { onSuccess(code.trim()) }
     else { setError(true); setCode('') }
   }
 
@@ -251,6 +251,7 @@ function LoginSheet({ onSuccess, onClose }: { onSuccess: () => void; onClose: ()
 // ── Main admin panel ───────────────────────────────────────────────────────────
 export default function AdminPanel({ protocols, categories, onClose, onProtocolsChange, onCategoriesChange }: AdminPanelProps) {
   const [authed, setAuthed] = useState(false)
+  const [adminCode, setAdminCode] = useState('')
   const [tab, setTab] = useState<Tab>('upload')
 
   // Upload form
@@ -277,7 +278,7 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
   const [catMsg, setCatMsg] = useState('')
 
   if (!authed) {
-    return <LoginSheet onSuccess={() => setAuthed(true)} onClose={onClose} />
+    return <LoginSheet onSuccess={(code) => { setAuthed(true); setAdminCode(code) }} onClose={onClose} />
   }
 
   // ── Handlers ──
@@ -322,40 +323,71 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
   async function handleUpload() {
     if (!file || !title || !selCategory) return
     setUploadStatus('uploading')
-    setUploadMsg('מעלה קובץ לגיטהאב...')
+
+    const GITHUB_API = 'https://api.github.com/repos/E2Je/nehmad-bamalrad'
 
     try {
-      // PDFs/Word > 3MB will exceed Vercel's 4.5MB limit after base64 encoding
-      if (!file.type.startsWith('image/') && file.size > 7 * 1024 * 1024) {
-        throw new Error('הקובץ גדול מדי (מקסימום 7MB לקבצי PDF/Word)')
-      }
+      // 1. Get upload token from server (verifies admin code server-side)
+      setUploadMsg('מאמת הרשאות...')
+      const tokenRes = await fetch('/api/get-upload-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminCode }),
+      })
+      if (!tokenRes.ok) throw new Error('auth')
+      const { token } = await tokenRes.json()
 
+      // 2. Prepare file content (compress images, PDFs as-is — no size limit)
+      setUploadMsg('מכין קובץ...')
       const base64 = await getBase64(file)
+      const safeName = file.name.replace(/\s+/g, '-')
+      const filePath = `protocols/${safeName}`
 
-      // base64 string length * 0.75 = approximate bytes; total payload must stay under 10MB
-      if (base64.length > 7 * 1024 * 1024) {
-        throw new Error('הקובץ גדול מדי גם אחרי דחיסה — נסה קובץ קטן יותר')
+      // 3. Check if file already exists (need SHA to overwrite)
+      const checkRes = await fetch(`${GITHUB_API}/contents/${filePath}`, {
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' },
+      })
+      const existingSha = checkRes.ok ? (await checkRes.json()).sha : null
+
+      // 4. Upload file directly to GitHub — bypasses Vercel, no size limit
+      setUploadMsg('מעלה קובץ לגיטהאב...')
+      const uploadRes = await fetch(`${GITHUB_API}/contents/${filePath}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          Accept: 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+        body: JSON.stringify({
+          message: `הוספת פרוטוקול: ${title}`,
+          content: base64,
+          branch: 'main',
+          ...(existingSha && { sha: existingSha }),
+        }),
+      })
+      if (!uploadRes.ok) {
+        const errData = await uploadRes.json().catch(() => ({}))
+        throw new Error(`github: ${errData.message || uploadRes.status}`)
       }
 
-      const safeName = file.name.replace(/\s+/g, '-')
-
-      const res = await fetch('/api/upload', {
+      // 5. Register metadata via Vercel (tiny payload — just text fields)
+      setUploadMsg('שומר מטאדאטה...')
+      const id = safeName.replace(/\.[^.]+$/, '').toLowerCase()
+      const metaRes = await fetch('/api/register-protocol', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          fileName: safeName,
-          content: base64,
-          title,
-          category: selCategory,
+          id, title, category: selCategory,
           tags: confirmedTags,
           fileType: detectFileType(file),
-          description,
+          fileName: safeName,
+          githubPath: filePath,
         }),
       })
+      if (!metaRes.ok) throw new Error('meta')
 
-      if (!res.ok) throw new Error(await res.text())
-
-      const { protocol: newP } = await res.json()
+      const { protocol: newP } = await metaRes.json()
       onProtocolsChange([...protocols, newP])
       setUploadStatus('done')
       setUploadMsg('הקובץ הועלה בהצלחה!')
@@ -364,9 +396,10 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
       setUploadStatus('error')
       const msg = err instanceof Error ? err.message : ''
       setUploadMsg(
-        msg.includes('גדול מדי') ? msg :
-        msg.includes('token') ? 'חסר GITHUB_TOKEN ב-Vercel' :
-        'שגיאה בהעלאה - בדוק שה-Token הוגדר ב-Vercel'
+        msg === 'auth'            ? 'שגיאת אימות — נסה להתחבר מחדש' :
+        msg === 'meta'            ? 'הקובץ עלה אך לא נרשם — רענן ונסה שוב' :
+        msg.startsWith('github:') ? `שגיאת GitHub: ${msg.slice(7)}` :
+        'שגיאה בהעלאה'
       )
     }
   }
