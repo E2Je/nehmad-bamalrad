@@ -360,7 +360,10 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ adminCode }),
       })
-      if (!tokenRes.ok) throw new Error('auth')
+      if (!tokenRes.ok) {
+        const errData = await tokenRes.json().catch(() => ({}))
+        throw new Error(`auth:${tokenRes.status}:${(errData as {error?:string}).error || ''}`)
+      }
       const { token } = await tokenRes.json()
 
       // 2. Prepare file content (compress images, PDFs as-is — no size limit)
@@ -418,7 +421,9 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
       setUploadStatus('error')
       const msg = err instanceof Error ? err.message : ''
       setUploadMsg(
-        msg === 'auth'            ? 'שגיאת אימות — נסה להתחבר מחדש' :
+        msg.startsWith('auth:500') ? 'GITHUB_TOKEN לא מוגדר ב-Vercel' :
+        msg.startsWith('auth:401') ? 'קוד אדמין שגוי — נסה שוב' :
+        msg.startsWith('auth:')    ? `שגיאת חיבור (${msg})` :
         msg === 'meta'            ? 'הקובץ עלה אך לא נרשם — רענן ונסה שוב' :
         msg.startsWith('github:') ? `שגיאת GitHub: ${msg.slice(7)}` :
         'שגיאה בהעלאה'
