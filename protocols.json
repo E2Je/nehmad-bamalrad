@@ -921,6 +921,24 @@
       "githubPath": "protocols/פרוטוקול-קליני-מתן-Oxycodone-syrup-לפונים-למלרד-על-ידי-אחות-מורשית.pdf",
       "updatedAt": "2026-05-13",
       "isLatest": true
+    },
+    {
+      "id": "נחשים-ועקרבים",
+      "title": "נחשים ועקרבים",
+      "category": "---",
+      "tags": [
+        "נחש",
+        "עקרב",
+        "אנטיוונום",
+        "Antivenom",
+        "הכשת נחש",
+        "עקיצת עקרב"
+      ],
+      "fileName": "נחשים-ועקרבים.pdf",
+      "fileType": "pdf",
+      "githubPath": "protocols/נחשים-ועקרבים.pdf",
+      "updatedAt": "2026-05-31",
+      "isLatest": true
     }
   ]
 }
