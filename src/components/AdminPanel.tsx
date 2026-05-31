@@ -20,26 +20,34 @@ const EMOJI_OPTIONS = ['💉','💊','🧪','📋','🩺','❤️','🏥','📁'
 async function compressImage(file: File): Promise<string> {
   const MAX_DIM = 1920
   const QUALITY = 0.82
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const img = new Image()
     const url = URL.createObjectURL(file)
     img.onload = () => {
-      const scale = Math.min(1, MAX_DIM / Math.max(img.width, img.height))
-      const w = Math.round(img.width * scale)
-      const h = Math.round(img.height * scale)
-      const canvas = document.createElement('canvas')
-      canvas.width = w
-      canvas.height = h
-      canvas.getContext('2d')!.drawImage(img, 0, 0, w, h)
-      URL.revokeObjectURL(url)
-      resolve(canvas.toDataURL('image/jpeg', QUALITY).split(',')[1])
+      try {
+        const scale = Math.min(1, MAX_DIM / Math.max(img.width, img.height))
+        const w = Math.round(img.width * scale)
+        const h = Math.round(img.height * scale)
+        const canvas = document.createElement('canvas')
+        canvas.width = w
+        canvas.height = h
+        canvas.getContext('2d')!.drawImage(img, 0, 0, w, h)
+        URL.revokeObjectURL(url)
+        resolve(canvas.toDataURL('image/jpeg', QUALITY).split(',')[1])
+      } catch (e) {
+        URL.revokeObjectURL(url)
+        reject(e)
+      }
     }
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('load')) }
     img.src = url
   })
 }
 
 async function getBase64(file: File): Promise<string> {
-  if (file.type.startsWith('image/')) return compressImage(file)
+  if (file.type.startsWith('image/')) {
+    try { return await compressImage(file) } catch { /* fall through */ }
+  }
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => resolve((reader.result as string).split(',')[1])
@@ -323,6 +331,12 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
       }
 
       const base64 = await getBase64(file)
+
+      // base64 string length * 0.75 = approximate bytes; total payload must stay under 10MB
+      if (base64.length > 7 * 1024 * 1024) {
+        throw new Error('הקובץ גדול מדי גם אחרי דחיסה — נסה קובץ קטן יותר')
+      }
+
       const safeName = file.name.replace(/\s+/g, '-')
 
       const res = await fetch('/api/upload', {

@@ -1,3 +1,7 @@
+export const config = {
+  api: { bodyParser: { sizeLimit: '10mb' } },
+}
+
 const REPO = 'E2Je/nehmad-bamalrad'
 const BRANCH = 'main'
 
