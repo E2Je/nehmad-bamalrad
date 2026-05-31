@@ -393,7 +393,9 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
         setUploadProgress
       )
       if (!uploadRes.ok) {
-        throw new Error(`github: ${(uploadRes.data as { message?: string }).message || 'upload failed'}`)
+        const ghMsg = (uploadRes.data as { message?: string }).message || `status ${JSON.stringify(uploadRes.data)}`
+        console.error('GitHub upload failed:', ghMsg, uploadRes.data)
+        throw new Error(`github: ${ghMsg}`)
       }
 
       // 5. Register metadata via Vercel (tiny payload — just text fields)

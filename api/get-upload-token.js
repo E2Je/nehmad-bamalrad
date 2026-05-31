@@ -9,5 +9,5 @@ export default async function handler(req, res) {
   }
   const token = process.env.GITHUB_TOKEN
   if (!token) return res.status(500).json({ error: 'NO_TOKEN' })
-  res.status(200).json({ token })
+  res.status(200).json({ token: token.trim() })
 }
