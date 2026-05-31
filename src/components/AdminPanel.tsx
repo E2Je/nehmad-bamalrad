@@ -212,6 +212,31 @@ function TagsSection({ suggested, confirmed, onAccept, onAcceptAll, onRemove, on
   )
 }
 
+function xhrUpload(
+  url: string,
+  payload: object,
+  token: string,
+  onProgress: (pct: number) => void
+): Promise<{ ok: boolean; data: Record<string, unknown> }> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('PUT', url)
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.setRequestHeader('Accept', 'application/vnd.github+json')
+    xhr.setRequestHeader('X-GitHub-Api-Version', '2022-11-28')
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100))
+    }
+    xhr.onload = () => {
+      try { resolve({ ok: xhr.status >= 200 && xhr.status < 300, data: JSON.parse(xhr.responseText) }) }
+      catch { resolve({ ok: xhr.status >= 200 && xhr.status < 300, data: {} }) }
+    }
+    xhr.onerror = () => reject(new Error('network'))
+    xhr.send(JSON.stringify(payload))
+  })
+}
+
 // ── Login screen ───────────────────────────────────────────────────────────────
 function LoginSheet({ onSuccess, onClose }: { onSuccess: (code: string) => void; onClose: () => void }) {
   const [code, setCode] = useState('')
@@ -263,6 +288,7 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
   const [confirmedTags, setConfirmedTags] = useState<string[]>([])
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>('idle')
   const [uploadMsg, setUploadMsg] = useState('')
+  const [uploadProgress, setUploadProgress] = useState(0)
   const fileRef = useRef<HTMLInputElement>(null)
 
   // Edit
@@ -351,24 +377,20 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
 
       // 4. Upload file directly to GitHub — bypasses Vercel, no size limit
       setUploadMsg('מעלה קובץ לגיטהאב...')
-      const uploadRes = await fetch(`${GITHUB_API}/contents/${filePath}`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-          Accept: 'application/vnd.github+json',
-          'X-GitHub-Api-Version': '2022-11-28',
-        },
-        body: JSON.stringify({
+      setUploadProgress(0)
+      const uploadRes = await xhrUpload(
+        `${GITHUB_API}/contents/${filePath}`,
+        {
           message: `הוספת פרוטוקול: ${title}`,
           content: base64,
           branch: 'main',
           ...(existingSha && { sha: existingSha }),
-        }),
-      })
+        },
+        token,
+        setUploadProgress
+      )
       if (!uploadRes.ok) {
-        const errData = await uploadRes.json().catch(() => ({}))
-        throw new Error(`github: ${errData.message || uploadRes.status}`)
+        throw new Error(`github: ${(uploadRes.data as { message?: string }).message || 'upload failed'}`)
       }
 
       // 5. Register metadata via Vercel (tiny payload — just text fields)
@@ -639,13 +661,30 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
                 {uploadStatus === 'done' && <CheckCircle size={18} />}
                 {uploadStatus === 'error' && <AlertCircle size={18} />}
                 {uploadStatus === 'idle' && <Upload size={18} />}
-                {uploadStatus === 'uploading' ? 'מעלה...'
+                {uploadStatus === 'uploading'
+                  ? uploadProgress > 0 ? `מעלה... ${uploadProgress}%` : uploadMsg
                   : uploadStatus === 'done' ? 'הועלה!'
                   : uploadStatus === 'error' ? 'שגיאה'
                   : `הוסף פרוטוקול${confirmedTags.length > 0 ? ` (${confirmedTags.length} תגיות)` : ''}`}
               </button>
 
-              {uploadMsg && (
+              {/* Progress bar */}
+              {uploadStatus === 'uploading' && (
+                <div className="space-y-2">
+                  <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                    <div
+                      className="bg-primary h-2.5 rounded-full transition-all duration-300"
+                      style={{ width: uploadProgress > 0 ? `${uploadProgress}%` : '100%',
+                               animation: uploadProgress === 0 ? 'shimmer 1.5s infinite' : 'none' }}
+                    />
+                  </div>
+                  <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 text-center">
+                    ⚠️ אנא השאר את הדף פתוח עד סיום ההעלאה
+                  </p>
+                </div>
+              )}
+
+              {uploadMsg && uploadStatus !== 'uploading' && (
                 <p className={`text-center text-sm font-medium rounded-xl py-2.5 px-3 ${
                   uploadStatus === 'done' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'
                 }`}>
