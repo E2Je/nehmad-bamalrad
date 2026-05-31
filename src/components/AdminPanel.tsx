@@ -17,6 +17,37 @@ type UploadStatus = 'idle' | 'uploading' | 'done' | 'error'
 
 const EMOJI_OPTIONS = ['💉','💊','🧪','📋','🩺','❤️','🏥','📁','🔬','🩹','⚕️','🩻','📝','🫀','🫁','🧠','🦷','👁️','🧬','💆']
 
+async function compressImage(file: File): Promise<string> {
+  const MAX_DIM = 1920
+  const QUALITY = 0.82
+  return new Promise((resolve) => {
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+    img.onload = () => {
+      const scale = Math.min(1, MAX_DIM / Math.max(img.width, img.height))
+      const w = Math.round(img.width * scale)
+      const h = Math.round(img.height * scale)
+      const canvas = document.createElement('canvas')
+      canvas.width = w
+      canvas.height = h
+      canvas.getContext('2d')!.drawImage(img, 0, 0, w, h)
+      URL.revokeObjectURL(url)
+      resolve(canvas.toDataURL('image/jpeg', QUALITY).split(',')[1])
+    }
+    img.src = url
+  })
+}
+
+async function getBase64(file: File): Promise<string> {
+  if (file.type.startsWith('image/')) return compressImage(file)
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve((reader.result as string).split(',')[1])
+    reader.onerror = reject
+    reader.readAsDataURL(file)
+  })
+}
+
 function detectFileType(file: File): FileType {
   const ext = file.name.split('.').pop()?.toLowerCase() ?? ''
   if (['jpg','jpeg','png','gif','webp'].includes(ext)) return 'image'
@@ -285,41 +316,45 @@ export default function AdminPanel({ protocols, categories, onClose, onProtocols
     setUploadStatus('uploading')
     setUploadMsg('מעלה קובץ לגיטהאב...')
 
-    const reader = new FileReader()
-    reader.onload = async () => {
-      try {
-        const base64 = (reader.result as string).split(',')[1]
-        const safeName = file.name.replace(/\s+/g, '-')
-
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fileName: safeName,
-            content: base64,
-            title,
-            category: selCategory,
-            tags: confirmedTags,
-            fileType: detectFileType(file),
-            description,
-          }),
-        })
-
-        if (!res.ok) throw new Error(await res.text())
-
-        const { protocol: newP } = await res.json()
-        onProtocolsChange([...protocols, newP])
-        setUploadStatus('done')
-        setUploadMsg('הקובץ הועלה בהצלחה!')
-        setTimeout(resetForm, 2500)
-      } catch (err: unknown) {
-        setUploadStatus('error')
-        setUploadMsg(err instanceof Error && err.message.includes('token')
-          ? 'חסר GITHUB_TOKEN ב-Vercel'
-          : 'שגיאה בהעלאה - בדוק שה-Token הוגדר ב-Vercel')
+    try {
+      // PDFs/Word > 3MB will exceed Vercel's 4.5MB limit after base64 encoding
+      if (!file.type.startsWith('image/') && file.size > 3 * 1024 * 1024) {
+        throw new Error('הקובץ גדול מדי (מקסימום 3MB לקבצי PDF/Word)')
       }
+
+      const base64 = await getBase64(file)
+      const safeName = file.name.replace(/\s+/g, '-')
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fileName: safeName,
+          content: base64,
+          title,
+          category: selCategory,
+          tags: confirmedTags,
+          fileType: detectFileType(file),
+          description,
+        }),
+      })
+
+      if (!res.ok) throw new Error(await res.text())
+
+      const { protocol: newP } = await res.json()
+      onProtocolsChange([...protocols, newP])
+      setUploadStatus('done')
+      setUploadMsg('הקובץ הועלה בהצלחה!')
+      setTimeout(resetForm, 2500)
+    } catch (err: unknown) {
+      setUploadStatus('error')
+      const msg = err instanceof Error ? err.message : ''
+      setUploadMsg(
+        msg.includes('גדול מדי') ? msg :
+        msg.includes('token') ? 'חסר GITHUB_TOKEN ב-Vercel' :
+        'שגיאה בהעלאה - בדוק שה-Token הוגדר ב-Vercel'
+      )
     }
-    reader.readAsDataURL(file)
   }
 
   async function handleSaveEdit(id: string) {
